@@ -1,0 +1,54 @@
+/*input {
+    outline: 0;
+    background: #ffffff;
+    width: 100%;
+    border: 2px solid #e6e6e6;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+input:focus {
+    border-color: #5b08a7;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.login-signup-form {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-signup-form form {
+    width: 360px;
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    padding: 34px;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.login-signup-form .title {
+    font-size: 20px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.login-signup-form .form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 16px;
+    text-align: center;
+}
+
+.login-signup-form .form .message a {
+    color: #5b08a7;
+    text-decoration: none;
+}*/
