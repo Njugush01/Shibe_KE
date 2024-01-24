@@ -19,7 +19,7 @@ function SignUp () {
             <input type="password" placeholder="Confirm Password"/>
             <button className="btn btn-block">SignUp</button>
             <p className="message">
-                Already Registered? <Link to="/signin">SignIn</Link>
+                Already Registered? <Link to="/guest/signin">SignIn</Link>
             </p>
         </form>
     </div>

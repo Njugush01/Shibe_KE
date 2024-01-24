@@ -30,7 +30,7 @@ function Navbar(){
                         )
                     })}
                      <button> 
-                        <Link to='/signin'>SignIn</Link>
+                        <Link to='/guest/signin'>SignIn</Link>
                      </button>
                 </ul>
             </nav>

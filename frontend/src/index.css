@@ -168,7 +168,7 @@ table > tbody > tr > td {
 /* Login/Signup form */
 
 
-#defaultLayout {
+/* #defaultLayout {
     display: flex;
 }
 
@@ -203,7 +203,7 @@ table > tbody > tr > td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 #defaultLayout main {
     padding: 2rem;
