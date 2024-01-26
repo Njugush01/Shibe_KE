@@ -10,6 +10,8 @@ import Dashboard from "./routes/Dashboard";
 import NotFound from "./routes/NotFound";
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
+import UserForm from "./routes/UserForm";
+
 //import {Navigate} from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -24,6 +26,14 @@ const router = createBrowserRouter([
             {
                 path: 'users',
                 element: <Users/>
+            },
+            {
+                path: 'users/new',
+                element: <UserForm key="userCreate"/>
+            },
+            {
+                path: 'users/:id',
+                element: <UserForm key="userUpdate"/>
             },
             {
                 path: 'dashboard',
