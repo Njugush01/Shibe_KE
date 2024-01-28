@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axiosClient from "../axios-client"
+import { useStateContext } from "../contexts/ContextProvider";
 
 
 export default function UserForm() {
@@ -8,11 +9,13 @@ export default function UserForm() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState(null)
+    const{setNotification} = useStateContext()
     const [user, setUser] = useState({
         id: null,
-        name:'',
+        name: '',
+        email: '',
         password: '',
-        password_confirmation:''
+        password_confirmation: ''
     })
 
     if (id) {
@@ -36,6 +39,7 @@ export default function UserForm() {
             axiosClient.put(`/auth/users/${id}`,user)
             .then(() =>{
                 //show notification
+                setNotification("User was successfully updated")
                 navigate('/auth/users')
             })
             
@@ -50,7 +54,7 @@ export default function UserForm() {
         } else {
             axiosClient.post(`/auth/users/`, user)
               .then(() => {
-                //setNotification('User was successfully created')
+                setNotification("User was successfully created")
                 navigate('/auth/users')
               })
               .catch(err => {
@@ -80,7 +84,7 @@ export default function UserForm() {
         {!loading && 
         <form onSubmit={onSubmit}>  
             <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Name"/>
-            <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
+            <input type="email" value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
             <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Password"/>
             <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirm Password"/>
             <button className="btn">Save</button>

@@ -5,14 +5,24 @@ const ACCESS_TOKEN = '';
 const StateContext = createContext({
     user: null,
     token:null,
+    notification:null,
     setUser: () =>{},
-    setToken: () =>{}
+    setToken: () =>{},
+    setNotification:() =>{}
 })
 
 export const ContextProvider = ({children})=>{
 
     const[user, setUser] =useState({});
     const[token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    const[notification, _setNotification] = useState('');
+
+    const setNotification = (message) =>{
+        _setNotification(message);  //This will set the message
+        setTimeout(() => {
+            _setNotification('')   //After 5 sec this will reset the message
+        }, 5000);
+    }
 
     const setToken = (token) =>{
         _setToken(token)
@@ -27,7 +37,9 @@ export const ContextProvider = ({children})=>{
             user,
             token,
             setUser,
-            setToken
+            setToken,
+            notification,
+            setNotification
         }}>
             {children}
 

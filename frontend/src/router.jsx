@@ -12,6 +12,7 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import UserForm from "./routes/UserForm";
 
+//import { Route } from "react-router-dom";
 //import {Navigate} from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -45,10 +46,6 @@ const router = createBrowserRouter([
         path: '/guest',
         element: <GuestLayout/>,
         children: [
-            // {
-            //     index: true,
-            //     element: <SignIn/>
-            // },
             {
                 path: 'signin',
                 element: <SignIn/>
@@ -63,7 +60,6 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home/>
     },
-    
     {
         path: '/about',
         element: <About/>
@@ -71,7 +67,8 @@ const router = createBrowserRouter([
     {
         path: '/service',
         element: <Service/>
-    },{
+    },
+    {
         path: '/contact',
         element: <Contact/>
     },
@@ -79,9 +76,8 @@ const router = createBrowserRouter([
     {
         path: '*',
         element: <NotFound/>
-    },
-    
+    },  
 
 ])
 
-export default router;
+export default router; 

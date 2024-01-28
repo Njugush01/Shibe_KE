@@ -103,7 +103,7 @@ table > tbody > tr > td {
 .card {
     background-color: #FFF;
     border-radius: 0.5rem;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
     padding: 1.25rem 1.5rem;
     margin-bottom: 1rem;
     margin-top: 0.5rem;

@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import axiosClient from '../axios-client'
 
 export default function DefaultLayout() {
-    const {user, token, setUser, setToken} = useStateContext()
+    const {user, token, notification, setUser, setToken} = useStateContext()
 
     if(!token) {
         return <Navigate to="/guest/signin"/>
@@ -50,6 +50,14 @@ export default function DefaultLayout() {
             <Outlet/>
             </main>
         </div>
+
+
+        {notification &&
+          <div className='notification'>
+          {notification}
+          </div>
+        }  
+    
     </div>
   )
 }
