@@ -33,7 +33,7 @@ function Register (){
                     } else{
                         setErrors({email:[response.data.message]})
                     }
-                    setErrors(response.data.errors)
+                    //setErrors(response.data.errors)
                 }
             })
     }

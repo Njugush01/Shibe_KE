@@ -5,9 +5,11 @@ const ACCESS_TOKEN = '';
 const StateContext = createContext({
     user: null,
     token:null,
+    listing: null,
     notification:null,
     setUser: () =>{},
     setToken: () =>{},
+    setListing: () =>{},
     setNotification:() =>{}
 })
 
@@ -15,6 +17,7 @@ export const ContextProvider = ({children})=>{
 
     const[user, setUser] =useState({});
     const[token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
+    const[listing, setListing] = useState({});
     const[notification, _setNotification] = useState('');
 
     const setNotification = (message) =>{
@@ -24,7 +27,7 @@ export const ContextProvider = ({children})=>{
         }, 5000);
     }
 
-    const setToken = (token) =>{
+    const setToken = (token) =>{  //Accepts the token and calls useState _setToken to set the token inside the state
         _setToken(token)
         if (token){
             localStorage.setItem('ACCESS_TOKEN', token);
@@ -38,6 +41,8 @@ export const ContextProvider = ({children})=>{
             token,
             setUser,
             setToken,
+            listing,
+            setListing,
             notification,
             setNotification
         }}>

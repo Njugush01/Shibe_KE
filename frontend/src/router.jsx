@@ -5,12 +5,16 @@ import Service from "./routes/Service";
 import Contact from "./routes/Contact";
 import SignIn from "./routes/SignIn";
 import SignUp from "./routes/SignUp";
-import Users from "./routes/Users";
-import Dashboard from "./routes/Dashboard";
+import Users from "./admin/Users";
+import Dashboard from "./admin/Dashboard";
 import NotFound from "./routes/NotFound";
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
-import UserForm from "./routes/UserForm";
+import UserForm from "./admin/UserForm";
+import ListedFoods from "./admin/ListedFoods";
+import Report from "./admin/Report";
+import FoodListings from "./donor/FoodListings";
+import ListingsForm from "./donor/ListingsForm";
 
 //import { Route } from "react-router-dom";
 //import {Navigate} from "react-router-dom";
@@ -20,10 +24,6 @@ const router = createBrowserRouter([
         path: '/auth',
         element: <DefaultLayout/>,
         children: [
-            // {
-            //     index: true,
-            //     element: <Users/>
-            // },
             {
                 path: 'users',
                 element: <Users/>
@@ -39,6 +39,27 @@ const router = createBrowserRouter([
             {
                 path: 'dashboard',
                 element: <Dashboard/>
+            },
+            {
+                path: 'listed',
+                element: <ListedFoods/>
+            },
+            {
+                path: 'listing',
+                element: <FoodListings/>
+            },
+            
+            {
+                path: 'listing/new',
+                element: <ListingsForm key="listingCreate"/>
+            },
+            {
+                path: 'listing/:id',
+                element: <ListingsForm key="listingUpdate"/>
+            },
+            {
+                path: 'report',
+                element: <Report/>
             },
         ]
     },

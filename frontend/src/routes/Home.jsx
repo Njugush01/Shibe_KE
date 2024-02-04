@@ -13,7 +13,7 @@ function Home(){
         title="Nourishing Communities, One Donation at a Time"
         text="Transform excess into empathy, building a stronger community."  
         buttonText="Donate"
-        url="/signin"
+        url="/guest/signup"
         btnClass="show"      
         />
         

@@ -8,15 +8,21 @@ use App\Http\Requests\SigninRequest;
 use App\Http\Requests\SignupRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 { 
     public function signup(SignupRequest $request)
     {
         $data = $request->validated();
+        // Log::info(json_encode($data));
+        
+        // die (json_encode($data)); 
         /** @var \App\Models\User $user */
         $user = User::create([           //save a user and return user
             'name'=> $data['name'],
+            'account_type'=>$data['account_type'],
+            'phone'=>$data['phone'],
             'email' => $data['email'],
             'password'=> bcrypt($data['password']),
         ]);

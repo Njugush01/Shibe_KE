@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import Register from "../components/Register";
+import Login from "../components/Login";
 
 
 function SignIn (){
@@ -7,7 +7,7 @@ function SignIn (){
         <>
          <Navbar/>
        
-         <Register/>
+         <Login/>
          
         </>
     )

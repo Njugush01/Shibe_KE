@@ -5,9 +5,14 @@ import {Link} from "react-router-dom"
 import "./DefaultLayout.css"
 import { useEffect } from 'react'
 import axiosClient from '../axios-client'
+import { useState } from 'react'
+
 
 export default function DefaultLayout() {
     const {user, token, notification, setUser, setToken} = useStateContext()
+    const {userData,setUserData} = useState(localStorage.getItem("userData"));
+    console.log(userData);
+    let account_type = 2;
 
     if(!token) {
         return <Navigate to="/guest/signin"/>
@@ -26,23 +31,28 @@ export default function DefaultLayout() {
     useEffect(() => {
       axiosClient.get('/user')
       .then(({data}) => {
-        setUser(data)
+        console.log(data);
+        setUser(data);
       })
     }, [])
 
   return (
     <div className='defaultLayout'>
         <aside>
+            <h1>Food Link</h1>
             <Link to="/auth/dashboard">Dashboard</Link>
-            <Link to="/auth/users">Users</Link>
+            {account_type == 3 || account_type == 2  ? "":<Link to="/auth/users">Users</Link>}
+            {account_type == 2  ? "":<Link to="/auth/listed">Listed Food</Link>}
+            {account_type == 1 || account_type == 3  ? "":<Link to="/auth/listing">Food Listings</Link>}
+            {account_type == 3 ? "":<Link to="/auth/report">Report</Link>}
         </aside> 
         <div className='content'>
             <header>
                 <div>
-                  Admin
+                 <h3>{account_type == 1 ? "Admin": account_type == 2 ? "Donor": account_type == 3 ? "Volunteer":"Anonymous"}</h3>
                 </div>
                 <div>
-                  {user.name}
+                  {user.name} | 
                   <a href='#' onClick={onLogout} className='btn-logout'>Logout</a>
                 </div>
             </header>

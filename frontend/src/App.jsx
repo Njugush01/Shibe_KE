@@ -1,13 +1,13 @@
 import './index.css';
-import {Route, Routes} from "react-router-dom";
-import Home from './routes/Home';
-import About from './routes/About';
-import Service from './routes/Service';
-import Contact from './routes/Contact';
-import SignIn from './routes/SignIn';
-import SignUp from './routes/SignUp';
-import Users from './routes/Users';
-import Dashboard from './routes/Dashboard';
+// import {Route, Routes} from "react-router-dom";
+// import Home from './routes/Home';
+// import About from './routes/About';
+// import Service from './routes/Service';
+// import Contact from './routes/Contact';
+// import SignIn from './routes/SignIn';
+// import SignUp from './routes/SignUp';
+// import Admin from './routes/Admin';
+// import Dashboard from './routes/Dashboard';
 
 function App() {
   return (

@@ -6,7 +6,7 @@ export default function GuestLayout() {
     const {token} = useStateContext()
     
     if (token) {
-        return <Navigate to="/auth/users"/>
+        return <Navigate to="/auth/dashboard"/>
     }
   return (
     <div>
@@ -14,3 +14,4 @@ export default function GuestLayout() {
     </div>
   )
 }
+ 

@@ -40,7 +40,7 @@ export default function UserForm() {
             .then(() =>{
                 //show notification
                 setNotification("User was successfully updated")
-                navigate('/auth/users')
+                navigate('/auth/admin')
             })
             
             .catch(err => {

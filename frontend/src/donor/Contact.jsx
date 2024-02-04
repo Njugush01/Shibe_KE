@@ -1,8 +1,8 @@
-import "./ContactFormStyles.css"
+import "./Contact.css"
 
-function ContactForm(){
-    return(
-        <div className="form-container"> 
+function Contact() {
+  return (
+    <div className="form-container"> 
             <span>GET IN TOUCH</span>
             <h2>Visit one of our agency locations or contact us today</h2>
             <form>
@@ -13,8 +13,7 @@ function ContactForm(){
                 <button>Submit</button>
             </form>   
         </div>
-        
-    )
+  )
 }
 
-export default ContactForm;
+export default Contact;

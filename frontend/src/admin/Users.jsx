@@ -17,7 +17,7 @@ export default function Users() {
       return
     }
 
-    //removing the deleted uder from the list
+    //removing the deleted user from the list
     axiosClient.delete(`/auth/users/${u.id}`)
     .then(() => {
       setNotification("User was successfully created")

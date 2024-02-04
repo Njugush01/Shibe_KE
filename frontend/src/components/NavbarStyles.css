@@ -67,11 +67,11 @@ button{
 
 button a{
     text-decoration: none;
+    color: #fff;
 }
 
 button:hover{
     background-color: #151516;
-    color: #fff;
 }
 
 .menu-icons{

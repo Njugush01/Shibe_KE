@@ -18,6 +18,12 @@
     transition: all 0.2s;
 }
 
+.defaultLayout aside > h1{
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
 .defaultLayout aside > a:hover {
     background-color: rgba(0, 0, 0, 0.5);
 }
