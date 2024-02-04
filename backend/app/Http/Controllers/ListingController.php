@@ -35,6 +35,7 @@ class ListingController extends Controller
     {
         $data = $request->validated();
 
+        // return $data;
         $listing = Listing::create($data);
         return new ListingResource($listing);
 

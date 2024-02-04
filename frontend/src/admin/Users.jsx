@@ -50,6 +50,8 @@ export default function Users() {
               <th>ID</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
+              <th>Account Type</th>
               <th>Create Date</th>
               <th>Actions</th>
             </tr>
@@ -57,7 +59,7 @@ export default function Users() {
           {loading && 
           <tbody>
             <tr>
-              <td colSpan="5" className="text-center">
+              <td colSpan="7" className="text-center">
                 loading...
               </td>
             </tr>
@@ -71,6 +73,8 @@ export default function Users() {
                 <td>{u.id}</td>
                 <td>{u.name}</td>
                 <td>{u.email}</td>
+                <td>{u.phone}</td>
+                <td>{u.account_type}</td>
                 <td>{u.created_at}</td>
                 <td>
                   <Link className="btn-edit" to={'/auth/users/'+u.id}>Edit</Link>

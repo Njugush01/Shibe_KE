@@ -3,16 +3,16 @@ import { useStateContext } from '../contexts/ContextProvider'
 import {Navigate} from "react-router-dom"
 import {Link} from "react-router-dom"
 import "./DefaultLayout.css"
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axiosClient from '../axios-client'
-import { useState } from 'react'
+//import { useState } from 'react'
 
 
 export default function DefaultLayout() {
     const {user, token, notification, setUser, setToken} = useStateContext()
-    const {userData,setUserData} = useState(localStorage.getItem("userData"));
-    console.log(userData);
-    let account_type = 2;
+    //const {userData,setUserData} = useState(localStorage.getItem("userData"));
+    //console.log(userData);
+   const [account_type, setAccountType]= useState(0);
 
     if(!token) {
         return <Navigate to="/guest/signin"/>
@@ -31,7 +31,8 @@ export default function DefaultLayout() {
     useEffect(() => {
       axiosClient.get('/user')
       .then(({data}) => {
-        console.log(data);
+        console.log(data.account_type);
+        setAccountType(data.account_type);
         setUser(data);
       })
     }, [])
@@ -52,7 +53,7 @@ export default function DefaultLayout() {
                  <h3>{account_type == 1 ? "Admin": account_type == 2 ? "Donor": account_type == 3 ? "Volunteer":"Anonymous"}</h3>
                 </div>
                 <div>
-                  {user.name} | 
+                  {user.name} &nbsp; &nbsp; 
                   <a href='#' onClick={onLogout} className='btn-logout'>Logout</a>
                 </div>
             </header>

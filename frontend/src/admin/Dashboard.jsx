@@ -28,7 +28,7 @@ export default function Dashboard() {
       </div> 
       <div className="card--container">
         {details.map((item) =>(
-          <div className="card-2">
+          <div className="card-2" key={item.id}>
             <div className="card--cover">{item.icon}</div>
             <div className="card--title">
               <h2>{item.title}</h2>

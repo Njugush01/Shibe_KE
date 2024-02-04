@@ -23,7 +23,7 @@ Route::middleware('auth:sanctum')->group(function() {
 });
     Route::post('/logout',[AuthController::class,'logout']);
     Route::apiResource('/auth/users', UserController::class);
-    Route::apiResource('/listing', ListingController::class);
+    Route::apiResource('/auth/listing', ListingController::class);
 });
    
 

@@ -6,6 +6,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 function ListingsForm() {
     const {id} = useParams()
+    const navigate = useNavigate();
     const [errors, setErrors] = useState(null)
     const{setNotification} = useStateContext()
     const [loading, setLoading] = useState(false)
@@ -37,11 +38,11 @@ function ListingsForm() {
     const onSubmit = (ev) =>{
         ev.preventDefault();
         if (listing.id) {
-            axiosClient.put(`/auth/listing/${id}`,user)
+            axiosClient.put(`/auth/listing/${id}`,listing)
             .then(() =>{
                 //show notification
                 setNotification("Listing was successfully updated")
-                navigate('/listing')
+                navigate('/auth/listing')
             })
             
             .catch(err => {
@@ -86,8 +87,9 @@ function ListingsForm() {
         <form onSubmit={onSubmit}>  
             <input value={listing.title} onChange={ev => setListing({...listing, title: ev.target.value})} placeholder="Food Type"/>
             <textarea value={listing.description} onChange={ev => setListing({...listing, description: ev.target.value})} placeholder="Description"/>
-            <input type="number" onChange={ev => setListing({...listing, quantity: ev.target.value})} placeholder="Quantity"/>
-            <input type="text" onChange={ev => setListing({...listing, expiry_date: ev.target.value})} placeholder="Expiry Date"/>
+            <input type="number" value={listing.quantity} onChange={ev => setListing({...listing, quantity: ev.target.value})} placeholder="Quantity"/>
+            <input type="text" value={listing.expiry_date} onChange={ev => setListing({...listing, expiry_date: ev.target.value})} placeholder="Expiry Date"/>
+            <input type="text" value={listing.location} onChange={ev => setListing({...listing, location: ev.target.value})} placeholder="Location"/>
             <button className="btn">Save</button>
         </form>
         }

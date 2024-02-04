@@ -1,15 +1,28 @@
 import { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
 import axiosClient from "../axios-client"
-import { useStateContext } from "../contexts/ContextProvider"
+//import { useStateContext } from "../contexts/ContextProvider"
 
 export default function FoodListings() {
- // const {listings} = useStateContext();
   const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     getListings();
   }, [])
+
+  const onDelete = (listing) => {
+    if(!window.confirm("Are you sure you want to delete this listing?")) {
+      return
+    }
+
+    //removing the deleted user from the list
+    axiosClient.delete(`/auth/listing/${listing.id}`)
+    .then(() => {
+      setNotification("Listing was successfully deleted")
+      getUsers()
+    })
+  }
 
   const getListings = () => {
     setLoading(true)
@@ -44,26 +57,38 @@ export default function FoodListings() {
               <th>Actions</th>
             </tr>
           </thead>
+          {loading && 
           <tbody>
-            {listings.map(listing =>(
-              <tr key={listing.id}>
-              <td>{listing.id}</td>
-              <td>{listing.title}</td>
-              <td>{listing.description}</td>
-              <td>{listing.quantity}</td>
-              <td>{listing.expiryDate}</td>
-              <td>{listing.location}</td>
-              <td>{listing.created_at}</td>
-              <td>
-                <Link className="btn-edit" to={'/auth/listing/'+u.id}>Edit</Link>
-                &nbsp;
-                <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
+            <tr>
+              <td colSpan="7" className="text-center">
+                loading...
               </td>
+            </tr>
+          </tbody>
+          }
+
+          {!loading &&
+            <tbody>
+              {listings.map(listing =>(
+                <tr key={listing.id}>
+                <td>{listing.id}</td>
+                <td>{listing.title}</td>
+                <td>{listing.description}</td>
+                <td>{listing.quantity}</td>
+                <td>{listing.expiryDate}</td>
+                <td>{listing.location}</td>
+                <td>{listing.created_at}</td>
+                <td>
+                  <Link className="btn-edit" to={'/auth/listing/'+u.id}>Edit</Link>
+                   &nbsp;
+                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
+                </td>
             </tr>
           ))}
           </tbody>
+          }
         </table>
-        </div>
+      </div>
     </div>
   )
 }

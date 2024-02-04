@@ -22,7 +22,7 @@ function SignUp () {
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            name: ["Only letters and spaces are allowed"],
+            name: ["Only letters and spaces are allowed!"],
           }));
         }
       };
@@ -34,7 +34,7 @@ function SignUp () {
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            phone: ["Only numbers are allowed"],
+            phone: ["Only numbers are allowed!"],
           }));
         }
       };
@@ -55,22 +55,16 @@ function SignUp () {
         }
 
         axiosClient.post("/guest/signup", payload)  //making request to the server
-
-        /* `.then(({data})=>{})` is a promise method that is called after the `axiosClient.post()`
-            method is executed successfully. It receives a callback function that takes an object as
-            its parameter. The object has a `data` property that contains the response data from the
-            server. This allows us to handle the response data and perform any necessary actions
-            after the request has been completed. */
-
             .then(({data}) => {
                 setUser(data.user);
-                localStorage.setItem("userData", JSON.stringify(data.user)); 
-                setToken(data.token)   //whenever token information is available the app will rerender and user directed to dashboard
+                console.log(data.user);
+                //localStorage.setItem("userData", JSON.stringify(data.user)); 
+                setToken(data.token); 
             })
             .catch(err => {
                 const response = err.response;
                 if (response && response.status === 422) {
-                    console.log(response.data.errors);
+                    //console.log(response.data.errors);
                     setErrors(response.data.errors)
                 }
             })
@@ -84,7 +78,7 @@ function SignUp () {
           {errors && (
             <div className="alert">
               {Object.keys(errors).map((key) => (
-                <p key={key}>{errors[key][0]}</p>
+                <p key={key}>{errors[key] && errors[key][0]}</p>
               ))}
             </div>
           )}
@@ -94,7 +88,7 @@ function SignUp () {
             placeholder="Full Name"
             onChange={handleNameChange}
           />
-          {/* {errors?.name && <p className="error-message">{errors.name[0]}</p>} */}
+          {errors?.name && <p className="error-message">{errors.name[0]}</p>}
           
           <input ref={emailRef} type="email" placeholder="Email Address" />
           <input
@@ -103,7 +97,7 @@ function SignUp () {
             placeholder="Phone Number"
             onChange={handlePhoneChange}
           />
-          {/* {errors?.phone && <p className="error-message">{errors.phone[0]}</p>} */}
+          {errors?.phone && <p className="error-message">{errors.phone[0]}</p>}
 
           <label htmlFor="role">Select Role:</label>
           <select ref={account_typeRef} id="role" defaultValue="">

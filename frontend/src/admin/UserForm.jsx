@@ -14,6 +14,8 @@ export default function UserForm() {
         id: null,
         name: '',
         email: '',
+        phone: '',
+        account_type: '',
         password: '',
         password_confirmation: ''
     })
@@ -40,7 +42,7 @@ export default function UserForm() {
             .then(() =>{
                 //show notification
                 setNotification("User was successfully updated")
-                navigate('/auth/admin')
+                navigate('/auth/users')
             })
             
             .catch(err => {
@@ -85,6 +87,8 @@ export default function UserForm() {
         <form onSubmit={onSubmit}>  
             <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Name"/>
             <input type="email" value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
+            <input value={user.phone} onChange={ev => setUser({...user, phone: ev.target.value})} placeholder="Phone Number"/>
+            <input value={user.account_type} onChange={ev => setUser({...user, accounta_type: ev.target.value})} placeholder="Account Type"/>
             <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Password"/>
             <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirm Password"/>
             <button className="btn">Save</button>

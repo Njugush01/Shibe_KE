@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import {RouterProvider} from 'react-router-dom';
 import './index.css';
 import App from './App';
+import './components/HeroStyles.css'
 import router from './router';
 import { ContextProvider } from './contexts/ContextProvider';
 
