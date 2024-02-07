@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
+import Accounts from "../components/Accounts";
 
 export default function Users() {
   const [users, setUsers] = useState([]);
@@ -74,7 +75,7 @@ export default function Users() {
                 <td>{u.name}</td>
                 <td>{u.email}</td>
                 <td>{u.phone}</td>
-                <td>{u.account_type}</td>
+                <td>{Accounts(u.account_type)}</td>
                 <td>{u.created_at}</td>
                 <td>
                   <Link className="btn-edit" to={'/auth/users/'+u.id}>Edit</Link>

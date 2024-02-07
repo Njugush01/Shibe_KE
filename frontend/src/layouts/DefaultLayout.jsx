@@ -31,9 +31,9 @@ export default function DefaultLayout() {
       // setAccountType(data.account_type);
       axiosClient.get('/user')
       .then(({data}) => {
-        console.log(data.account_type);
+        console.log(data);
         setAccountType(data.account_type);
-        localStorage.setItem("userData", JSON.stringify(data));
+        //localStorage.setItem("userData", JSON.stringify(data));
         setUser(data);
       })
     }, [])
