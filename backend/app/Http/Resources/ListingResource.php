@@ -13,15 +13,17 @@ class ListingResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+   
+     public function toArray(Request $request): array
     {
         return [
             'id' => $this -> id,
             'title' => $this -> title,
             'description' => $this -> description,
             'quantity' => $this ->quantity,
-            'expiry_date' => $this -> expiry_date,
+            'expiry_date' => $this -> created_at->format('d-m-y'),
             'location' => $this -> location,
+            'created_at' => $this -> created_at->format('d-m-y H:i:s'),
         ];
     }
 }

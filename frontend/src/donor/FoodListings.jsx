@@ -26,7 +26,7 @@ export default function FoodListings() {
 
   const getListings = () => {
     setLoading(true)
-    axiosClient.get('/listing')
+    axiosClient.get('/auth/listing')
       .then(({data}) =>{
         setLoading(false)
         setListings(data.data)
@@ -54,6 +54,7 @@ export default function FoodListings() {
               <th>Quantity</th>
               <th>Expiry Date</th>
               <th>Location</th>
+              <th>Create Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -75,11 +76,11 @@ export default function FoodListings() {
                 <td>{listing.title}</td>
                 <td>{listing.description}</td>
                 <td>{listing.quantity}</td>
-                <td>{listing.expiryDate}</td>
+                <td>{listing.expiry_date}</td>
                 <td>{listing.location}</td>
                 <td>{listing.created_at}</td>
                 <td>
-                  <Link className="btn-edit" to={'/auth/listing/'+u.id}>Edit</Link>
+                  <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Edit</Link>
                    &nbsp;
                    <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
                 </td>

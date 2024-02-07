@@ -10,9 +10,7 @@ import axiosClient from '../axios-client'
 
 export default function DefaultLayout() {
     const {user, token, notification, setUser, setToken} = useStateContext()
-    //const {userData,setUserData} = useState(localStorage.getItem("userData"));
-    //console.log(userData);
-   const [account_type, setAccountType]= useState(0);
+    const [account_type, setAccountType]= useState(0);
 
     if(!token) {
         return <Navigate to="/guest/signin"/>
@@ -29,10 +27,13 @@ export default function DefaultLayout() {
     }
 
     useEffect(() => {
+      // const data = await axiosClient.get('/user');
+      // setAccountType(data.account_type);
       axiosClient.get('/user')
       .then(({data}) => {
         console.log(data.account_type);
         setAccountType(data.account_type);
+        localStorage.setItem("userData", JSON.stringify(data));
         setUser(data);
       })
     }, [])
@@ -42,6 +43,8 @@ export default function DefaultLayout() {
         <aside>
             <h1>Food Link</h1>
             <Link to="/auth/dashboard">Dashboard</Link>
+            <Link to="/auth/profile">My Profile</Link>
+            {/* {account_type ==0? <></>:<></>} */}
             {account_type == 3 || account_type == 2  ? "":<Link to="/auth/users">Users</Link>}
             {account_type == 2  ? "":<Link to="/auth/listed">Listed Food</Link>}
             {account_type == 1 || account_type == 3  ? "":<Link to="/auth/listing">Food Listings</Link>}

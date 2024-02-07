@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class, 'user_id');
             $table->longText('description');
             $table->string('quantity');
-            $table->dateTime('expiry_date');
+            $table->string('expiry_date');
             $table->string('location');
             $table->timestamps();
         });

@@ -2,6 +2,10 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axiosClient from "../axios-client"
 import { useStateContext } from "../contexts/ContextProvider";
+import DatePicker from "react-datepicker";
+import get from "../GetIp"
+import "react-datepicker/dist/react-datepicker.css";
+
 
 
 function ListingsForm() {
@@ -10,6 +14,8 @@ function ListingsForm() {
     const [errors, setErrors] = useState(null)
     const{setNotification} = useStateContext()
     const [loading, setLoading] = useState(false)
+    const [position, setPosition] = useState({ latitude: null, longitude: null });
+
     const[listing, setListing] = useState({
         id: null,
         title: '',
@@ -19,20 +25,41 @@ function ListingsForm() {
         location: '',
 
     })
+    const [location, setLocation] = useState('');
 
-    if (id) {
+
+    //Whenever the user id is available we want to fetch the listing info and load it into the form
+      
         useEffect(() => {
+          // if (navigator.geolocation) {
+          //   navigator.geolocation.getCurrentPosition((position) => {
+          //     setPosition({
+          //       latitude: position.coords.latitude,
+          //       longitude: position.coords.longitude
+          //     });
+          //   });
+          // } else {
+          //   console.log("Geolocation is not supported by this browser.");
+          // }
+          get() .then((data)=>{
+            setLocation(data)
+          }) .catch((err)=>{
+            setLocation("error")
+          })
+          // setLocation(get() || "error")
+          if (id) {
             setLoading(true)
             axiosClient.get(`/auth/listing/${id}`)
             .then(({data}) =>{
                 setLoading(false)
-                setUser(data)
+                setListing(data)
             })
             .catch(() =>{
                 setLoading(false)
             })
+          }
         },[])
-    }
+      
 
     //implementing save or form submit
     const onSubmit = (ev) =>{
@@ -70,7 +97,7 @@ function ListingsForm() {
 
   return (
     <>
-      {listing.id && <h1>Update Listing: {listing.name}</h1>}
+      {listing.id && <h1>Update Listing: {listing.title}</h1>}
       {!listing.id && <h1>New Listing</h1>}
       <div className="card animated fadeInDown">
         {loading && (
@@ -87,9 +114,24 @@ function ListingsForm() {
         <form onSubmit={onSubmit}>  
             <input value={listing.title} onChange={ev => setListing({...listing, title: ev.target.value})} placeholder="Food Type"/>
             <textarea value={listing.description} onChange={ev => setListing({...listing, description: ev.target.value})} placeholder="Description"/>
-            <input type="number" value={listing.quantity} onChange={ev => setListing({...listing, quantity: ev.target.value})} placeholder="Quantity"/>
-            <input type="text" value={listing.expiry_date} onChange={ev => setListing({...listing, expiry_date: ev.target.value})} placeholder="Expiry Date"/>
-            <input type="text" value={listing.location} onChange={ev => setListing({...listing, location: ev.target.value})} placeholder="Location"/>
+            <input type="number" value={listing.quantity} onChange={ev => setListing({...listing, quantity: ev.target.value})} placeholder="Quantity in kg "/>
+            <DatePicker
+                selected={listing.expiry_date ? new Date(listing.expiry_date) : null}
+                onChange={(date) => setListing({ ...listing, expiry_date: date })}
+                placeholderText="Expiry Date"
+            />
+            { (
+            <input
+              type="text"
+              value={location}
+              onChange={ev=> setLocation(ev.target.value)}
+              placeholder="Location"
+              // readOnly
+            />
+          )}
+
+
+            
             <button className="btn">Save</button>
         </form>
         }
@@ -98,4 +140,4 @@ function ListingsForm() {
   )
 }
 
-export default ListingsForm
+export default ListingsForm;

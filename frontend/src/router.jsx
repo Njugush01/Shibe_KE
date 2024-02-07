@@ -15,6 +15,7 @@ import ListedFoods from "./admin/ListedFoods";
 import Report from "./admin/Report";
 import FoodListings from "./donor/FoodListings";
 import ListingsForm from "./donor/ListingsForm";
+import DonorProfile from "./donor/DonorProfile";
 
 //import { Route } from "react-router-dom";
 //import {Navigate} from "react-router-dom";
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: 'listing/:id',
                 element: <ListingsForm key="listingUpdate"/>
+            },
+            {
+                path: 'profile',
+                element: <DonorProfile/>
             },
             {
                 path: 'report',
