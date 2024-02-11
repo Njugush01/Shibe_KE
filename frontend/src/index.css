@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 *{
     margin: 0;
     padding: 0;
@@ -10,14 +11,19 @@
     text-align: center;
 }
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 input {
     outline: 0;
     background: #ffffff;
     width: 100%;
     border: 2px solid #e6e6e6;
-    margin: 0 0 15px;
+    margin: 0 0 15px; 
     padding: 15px;
-    box-sizing: border-box;
+    box-sizing: border-box; 
     font-size: 14px;
     transition: all 0.3s;
 }
@@ -285,25 +291,63 @@ table > tbody > tr > td {
 
 
 label[for="role"] {
-    display: block;
-    margin-bottom: 8px; /* Add some spacing between label and dropdown */
+    display: block ;
+    margin-bottom: 8px; 
   }
   
   select#role {
     display: block;
-    width: 100%;
+    width: 100% ;
     padding: 8px;
-    margin-bottom: 16px; /* Add some spacing between dropdown and other elements */
+    margin-bottom: 16px ; 
   }
 
   select#role:focus{
     border-color: #5b08a7;
   }
   
-  /* Optional: Add some styling to the options */
+
   select#role option {
     padding: 8px;
   }
+
+  /* Style for the select element */
+.select-wrapper select {
+    width: 100%;
+    padding: 15px;
+    font-size: 14px;
+    border: 2px solid #e6e6e6;
+    appearance: none; /* Remove default arrow icon */
+    background-color: #fff;
+    margin-bottom: 16px; 
+  }
+
+  /* Style for the options */
+  .select-wrapper select option {
+    font-size: 16px;
+  }
+  
+  /* Style for the arrow icon */
+  .select-wrapper select::after {
+    content: '\25BC'; /* Unicode for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  /* Style for hover and focus states */
+  .select-wrapper select:hover,
+  .select-wrapper select:focus {
+    border-color: #5b08a7;
+  }
+  
+  /* Style for hover state of the options */
+  .select-wrapper select option:hover {
+    background-color: #f4f4f4;
+  }
+  
   
 
 

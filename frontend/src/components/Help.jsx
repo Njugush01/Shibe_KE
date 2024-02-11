@@ -8,7 +8,7 @@ import Help3 from "../assets/3.jpg"
 function Help(){
     return(
         <div className="details">
-            <h1>Meet Our Volunteer Team</h1>
+            <h1 className='font-bold text-center'>Meet Our Volunteer Team</h1>
             <div className="detailcard">
                 <HelpData
                 image={Help1}

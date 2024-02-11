@@ -12,6 +12,18 @@ export default function DefaultLayout() {
     const {user, token, notification, setUser, setToken} = useStateContext()
     const [account_type, setAccountType]= useState(0);
 
+    useEffect(() => {
+      // const data = await axiosClient.get('/user');
+      // setAccountType(data.account_type);
+      axiosClient.get('/user')
+      .then(({data}) => {
+        //console.log(data);
+        setAccountType(data.account_type);
+        //localStorage.setItem("userData", JSON.stringify(data));
+        setUser(data);
+      })
+    }, [])
+
     if(!token) {
         return <Navigate to="/guest/signin"/>
     }
@@ -26,37 +38,29 @@ export default function DefaultLayout() {
         })
     }
 
-    useEffect(() => {
-      // const data = await axiosClient.get('/user');
-      // setAccountType(data.account_type);
-      axiosClient.get('/user')
-      .then(({data}) => {
-        console.log(data);
-        setAccountType(data.account_type);
-        //localStorage.setItem("userData", JSON.stringify(data));
-        setUser(data);
-      })
-    }, [])
+    
 
   return (
     <div className='defaultLayout'>
         <aside>
-            <h1>Food Link</h1>
-            <Link to="/auth/dashboard">Dashboard</Link>
+            <h1 className='font-bold text-3xl'>Food Link</h1>
             <Link to="/auth/profile">My Profile</Link>
-            {/* {account_type ==0? <></>:<></>} */}
+            {account_type == 3 || account_type == 1 ? "":<Link to="/auth/dashboard">Dashboard</Link>}
+            {account_type == 3 || account_type == 2  ? "":<Link to="/auth/admin-dashboard">Dashboard</Link>}
+          
             {account_type == 3 || account_type == 2  ? "":<Link to="/auth/users">Users</Link>}
             {account_type == 2  ? "":<Link to="/auth/listed">Listed Food</Link>}
-            {account_type == 1 || account_type == 3  ? "":<Link to="/auth/listing">Food Listings</Link>}
+            {account_type == 1 || account_type == 3  ? "":<Link to="/auth/listing">List Food</Link>}
             {account_type == 3 ? "":<Link to="/auth/report">Report</Link>}
         </aside> 
-        <div className='content'>
+        <div className='content bg-[#e9e8e6]'>
             <header>
                 <div>
-                 <h3>{account_type == 1 ? "Admin": account_type == 2 ? "Donor": account_type == 3 ? "Volunteer":"Anonymous"}</h3>
+                 <h2 className='font-bold text-2xl'>{account_type == 1 ? "Admin": account_type == 2 ? "Donor": account_type == 3 ? "Volunteer":"Anonymous"}</h2>
                 </div>
                 <div>
-                  {user.name} &nbsp; &nbsp; 
+                <Link to="/">Home</Link> | &nbsp; &nbsp;
+                  {user.name} | &nbsp; &nbsp; 
                   <a href='#' onClick={onLogout} className='btn-logout'>Logout</a>
                 </div>
             </header>

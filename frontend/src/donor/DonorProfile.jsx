@@ -2,6 +2,7 @@ import React from 'react'
 import {useEffect, useState} from 'react'
 import axiosClient from "../axios-client"
 import { useStateContext } from '../contexts/ContextProvider'
+import Accounts from "../Util";
 
 
 const DonorProfile = () => {
@@ -43,7 +44,7 @@ const DonorProfile = () => {
 
   return (
     <>
-     {user.id && <h1>Update User: {user.name}</h1>}
+     {user.id && <h1 className='font-bold text-3xl'>Update Profile: {user.name}</h1>}
     <div className="card animated fadeInDown">
         {loading && (
             <div className="text-center">Loading...</div>
@@ -60,7 +61,7 @@ const DonorProfile = () => {
             <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Name"/>
             <input type="email" value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
             <input value={user.phone} onChange={ev => setUser({...user, phone: ev.target.value})} placeholder="Phone Number"/>
-            <input value={user.account_type} placeholder="Account Type"/>
+            <input value={Accounts(user.account_type)} placeholder="Account Type" readOnly/>
             <input value={user.password} type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Password"/>
             <input value={user.password_confirmation} type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirm Password"/>
             <button className="btn">Save</button>
@@ -71,5 +72,5 @@ const DonorProfile = () => {
   )
 }
 
-export default DonorProfile
+export default DonorProfile;
 

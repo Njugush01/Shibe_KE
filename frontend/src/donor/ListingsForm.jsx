@@ -14,39 +14,28 @@ function ListingsForm() {
     const [errors, setErrors] = useState(null)
     const{setNotification} = useStateContext()
     const [loading, setLoading] = useState(false)
-    const [position, setPosition] = useState({ latitude: null, longitude: null });
-
+    const [location, setLocation] = useState('');
     const[listing, setListing] = useState({
         id: null,
         title: '',
         description: '',
         quantity: '',
         expiry_date: '',
-        location: '',
+        location: location,
 
     })
-    const [location, setLocation] = useState('');
+    
 
 
     //Whenever the user id is available we want to fetch the listing info and load it into the form
       
         useEffect(() => {
-          // if (navigator.geolocation) {
-          //   navigator.geolocation.getCurrentPosition((position) => {
-          //     setPosition({
-          //       latitude: position.coords.latitude,
-          //       longitude: position.coords.longitude
-          //     });
-          //   });
-          // } else {
-          //   console.log("Geolocation is not supported by this browser.");
-          // }
           get() .then((data)=>{
-            setLocation(data)
+            setListing({...listing, location: data})
           }) .catch((err)=>{
             setLocation("error")
           })
-          // setLocation(get() || "error")
+          
           if (id) {
             setLoading(true)
             axiosClient.get(`/auth/listing/${id}`)
@@ -97,7 +86,7 @@ function ListingsForm() {
 
   return (
     <>
-      {listing.id && <h1>Update Listing: {listing.title}</h1>}
+      {listing.id && <h1 className="font-bold text-2xl">Update Listing: {listing.title}</h1>}
       {!listing.id && <h1>New Listing</h1>}
       <div className="card animated fadeInDown">
         {loading && (
@@ -112,7 +101,20 @@ function ListingsForm() {
         }
         {!loading && 
         <form onSubmit={onSubmit}>  
-            <input value={listing.title} onChange={ev => setListing({...listing, title: ev.target.value})} placeholder="Food Type"/>
+            <div className="select-wrapper">
+              <select
+                value={listing.title}
+                onChange={(ev) =>
+                  setListing({ ...listing, title: ev.target.value })
+                }
+              >
+                <option value="">Select Food Type</option>
+                <option value="cereals">Cereals</option>
+                <option value="vegetables">Vegetables</option>
+                <option value="dairy products">Dairy Products</option>
+                <option value="meats">Meats</option>
+              </select>
+            </div>
             <textarea value={listing.description} onChange={ev => setListing({...listing, description: ev.target.value})} placeholder="Description"/>
             <input type="number" value={listing.quantity} onChange={ev => setListing({...listing, quantity: ev.target.value})} placeholder="Quantity in kg "/>
             <DatePicker
@@ -123,16 +125,13 @@ function ListingsForm() {
             { (
             <input
               type="text"
-              value={location}
-              onChange={ev=> setLocation(ev.target.value)}
+              value={listing.location}
+              onChange= {(ev)=> {setListing({...listing, location: ev.target.value});}}
               placeholder="Location"
               // readOnly
             />
-          )}
-
-
-            
-            <button className="btn">Save</button>
+          )}   
+            <button className="btn">Submit</button>
         </form>
         }
       </div>

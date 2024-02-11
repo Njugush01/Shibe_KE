@@ -6,7 +6,7 @@ import Contact from "./routes/Contact";
 import SignIn from "./routes/SignIn";
 import SignUp from "./routes/SignUp";
 import Users from "./admin/Users";
-import Dashboard from "./admin/Dashboard";
+import Dashboard from "./dashboards/Dashboard";
 import NotFound from "./routes/NotFound";
 import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
@@ -16,6 +16,7 @@ import Report from "./admin/Report";
 import FoodListings from "./donor/FoodListings";
 import ListingsForm from "./donor/ListingsForm";
 import DonorProfile from "./donor/DonorProfile";
+import AdminDashboard from "./dashboards/AdminDashboard";
 
 //import { Route } from "react-router-dom";
 //import {Navigate} from "react-router-dom";
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
             {
                 path: 'dashboard',
                 element: <Dashboard/>
+            },
+            {
+                path: 'admin-dashboard',
+                element: <AdminDashboard/>
             },
             {
                 path: 'listed',

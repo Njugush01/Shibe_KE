@@ -3,8 +3,9 @@ import { Link } from "react-router-dom"
 import { useRef, useState } from "react"
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
+import Loginimg from "../assets/login.jpg";
 
-function Register (){
+function Login (){
     const emailRef = useRef();
     const passwordRef = useRef();
 
@@ -41,10 +42,15 @@ function Register (){
 
 return (
 
-    <div className="login-signup-form animated fadeindown">
+    <div className="login-signup-form animated fadeindown" style={{
+        backgroundImage: `url(${Loginimg})`, // Specifies the path to the image
+        backgroundSize: "cover", // Adjusts the background image size to cover the entire container
+        backgroundPosition: "center", // Centers the background image
+        }}>
+
         <div className="form">
             <form onSubmit={onSubmit}>
-                <h1 className="title">
+                <h1 className="title font-bold text-3xl">
                     Login into your account
                 </h1>
                 {
@@ -69,4 +75,4 @@ return (
   )
 }
 
-export default Register;
+export default Login;

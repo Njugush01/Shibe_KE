@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
+import Signupimg from "../assets/signup.jpg";
 
 function SignUp () {
     const nameRef = useRef();
@@ -28,18 +29,23 @@ function SignUp () {
       };
     
       const handlePhoneChange = (event) => {
-        const inputValue = event.target.value;
-        if (/^[0-9]+$/.test(inputValue) || inputValue === "") {
-          setErrors((prevErrors) => ({ ...prevErrors, phone: null }));
+        let inputValue = event.target.value;
+        // Remove any non-digit characters
+        inputValue = inputValue.replace(/\D/g, "");
+        // Limit input to 12 digits
+        if (inputValue.length <= 12 || inputValue === "") {
+            setErrors((prevErrors) => ({ ...prevErrors, phone: null }));
         } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            phone: ["Only numbers are allowed!"],
-          }));
+            // Trim input to 12 digits
+            inputValue = inputValue.slice(0, 12);
+            event.target.value = inputValue; // Update input field value
+            setErrors((prevErrors) => ({
+                ...prevErrors,
+                phone: ["Phone number cannot exceed 12 digits!"],
+            }));
         }
-      };
-    
-    
+    };
+      
 
 
 
@@ -71,10 +77,14 @@ function SignUp () {
     }
 
   return (
-    <div className="login-signup-form animated fadeindown">
+    <div className="login-signup-form animated fadeindown"style={{
+      backgroundImage: `url(${Signupimg})`, // Specifies the path to the image
+      backgroundSize: "cover", // Adjusts the background image size to cover the entire container
+      backgroundPosition: "center", // Centers the background image
+      }}>
       <div className="form">
         <form onSubmit={onSubmit}>
-          <h1 className="title">SignUp for free</h1>
+          <h1 className="title font-bold text-3xl">Sign Up for free</h1>
           {errors && (
             <div className="alert">
               {Object.keys(errors).map((key) => (
@@ -94,7 +104,7 @@ function SignUp () {
           <input
             ref={phoneRef}
             type="tel"
-            placeholder="Phone Number"
+            placeholder="Mobile Number: 254712345678"
             onChange={handlePhoneChange}
           />
           {errors?.phone && <p className="error-message">{errors.phone[0]}</p>}
@@ -104,7 +114,7 @@ function SignUp () {
             <option value="" disabled hidden>
               Choose Role
             </option>
-            <option value="1">Admin</option>
+             {/* <option value="1">Admin</option>  */}
             <option value="3">Volunteer</option>
             <option value="2">Donor</option>
           </select>

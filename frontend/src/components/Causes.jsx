@@ -8,8 +8,10 @@ import kids from "../assets/kids.jpg"
 const Causes = () =>{
     return(
         <div className="causes">
-            <h1>Why We Exist</h1>
-            <p>Connecting surplus food providers with those in need effortlessly.</p>
+            <div className="text-center">
+                <h1 className='font-bold'>Why We Exist</h1>
+                <p>Connecting surplus food providers with those in need effortlessly.</p>
+            </div>
 
             <CausesData
             className="first-des"

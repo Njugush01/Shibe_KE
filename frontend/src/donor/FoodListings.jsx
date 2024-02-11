@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
 import axiosClient from "../axios-client"
-//import { useStateContext } from "../contexts/ContextProvider"
+import Pagination from "../Pagination";
 
 export default function FoodListings() {
   const [listings, setListings] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [meta, setMeta] = useState({});
+
+  const onPageClick = (link) => {
+    getListings(link.url)
+  }
+
 
   useEffect(() => {
     getListings();
@@ -16,20 +22,22 @@ export default function FoodListings() {
       return
     }
 
-    //removing the deleted user from the list
+    //removing the deleted listing from the list
     axiosClient.delete(`/auth/listing/${listing.id}`)
     .then(() => {
       setNotification("Listing was successfully deleted")
-      getUsers()
+      getListings()
     })
   }
 
-  const getListings = () => {
+  const getListings = (url) => {
+    url = url || '/auth/listing'
     setLoading(true)
-    axiosClient.get('/auth/listing')
+    axiosClient.get(url)
       .then(({data}) =>{
         setLoading(false)
         setListings(data.data)
+        setMeta(data.meta)
       })
       .catch(() =>{
        setLoading(false)
@@ -41,7 +49,7 @@ export default function FoodListings() {
   return (
 <div>
        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <h1>Food Listings</h1>
+        <h1 className='font-bold text-2xl'>Food Listings</h1>
         <Link to="/auth/listing/new" className="btn-add">Add new</Link>
       </div>
       <div className="card animated fadeInDown">
@@ -90,6 +98,7 @@ export default function FoodListings() {
           }
         </table>
       </div>
+      <Pagination meta={meta} onPageClick={onPageClick} />
     </div>
   )
 }

@@ -13,7 +13,7 @@ function Navbar(){
     }
         return(
             <nav className="NavbarItems">
-                <h1 className="navbar-logo">Food Link</h1>
+                <h1 className="navbar-logo font-bold text-3xl">Food Link</h1>
 
                 <div className="menu-icons" onClick={handleClick}>
                     <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>

@@ -17,9 +17,9 @@ class ListingFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence,
+            'title' => $this->faker->title,
             'user_id' => $this->faker->numberBetween(1, 20),
-            'description' => $this->faker->paragraph,
+            'description' => $this->faker->sentence(3),
             'quantity' => $this->faker->numberBetween(1, 10),
             'expiry_date' => $this->faker->dateTimeBetween('now', '+1 month'),
             'location' => $this->faker->city,

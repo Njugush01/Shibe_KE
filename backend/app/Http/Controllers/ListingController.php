@@ -22,7 +22,7 @@ class ListingController extends Controller
         return ListingResource::collection(
             Listing::where('user_id', $user->id)
             ->orderBy('created_at','desc')
-            ->paginate(10)
+            ->paginate(7)
         );
     }
 /**

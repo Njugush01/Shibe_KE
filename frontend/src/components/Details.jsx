@@ -8,8 +8,10 @@ import Detail3 from "../assets/empower.jpg"
 function Details(){
     return(
         <div className="details">
-            <h1>Empowering Lives with Compassion and Dignity</h1>
-            <p>Your contribution matters—make a difference in someone's life today</p>
+            <div className="text-center">
+                <h1 className='font-bold'>Empowering Lives with Compassion and Dignity</h1>
+                <p>Your contribution matters—make a difference in someone's life today</p>
+            </div>
             <div className="detailcard">
                 <DetailsData
                 image={Detail1}
