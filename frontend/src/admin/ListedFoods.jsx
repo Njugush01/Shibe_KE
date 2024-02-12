@@ -74,9 +74,9 @@ export default function ListedFoods() {
                 <td>{listing.location}</td>
                 <td>{listing.created_at}</td>
                 <td>
-                  <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Edit</Link>
+                  <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Accept</Link>
                    &nbsp;
-                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
+                   <button onClick={ev => onDelete(listing)} className="btn-delete">Reject</button>
                 </td>
             </tr>
           ))}
@@ -86,5 +86,6 @@ export default function ListedFoods() {
       </div>
       <Pagination meta={meta} onPageClick={onPageClick} />
     </div>
+    
   )
 }

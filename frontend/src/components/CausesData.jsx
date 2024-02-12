@@ -6,7 +6,7 @@ class CausesData extends Component{
         return(
             <div className={this.props.className}>
                 <div className="des-text">
-                    <h2>{this.props.heading}</h2>
+                    <h2 className="font-bold">{this.props.heading}</h2>
                     <p>
                         {this.props.text}
                     </p>
