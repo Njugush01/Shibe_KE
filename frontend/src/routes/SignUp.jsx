@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
 import Signupimg from "../assets/signup.jpg";
+import toast, { Toaster } from 'react-hot-toast'; 
 
 function SignUp () {
     const nameRef = useRef();
@@ -18,13 +19,16 @@ function SignUp () {
 
     const handleNameChange = (event) => {
         const inputValue = event.target.value;
+        // inputValue = inputValue.replace(/[^A-Za-z\s]/g, ""); 
+        // event.target.value = inputValue; // Update input field value
         if (/^[A-Za-z\s]+$/.test(inputValue) || inputValue === "") {
           setErrors((prevErrors) => ({ ...prevErrors, name: null }));
         } else {
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            name: ["Only letters and spaces are allowed!"],
-          }));
+          // setErrors((prevErrors) => ({
+          //   ...prevErrors,
+          //   // name: ["Only letters and spaces are allowed!"],
+          // }));
+          toast.error("Only letters and spaces are allowed!")
         }
       };
     
@@ -39,10 +43,11 @@ function SignUp () {
             // Trim input to 12 digits
             inputValue = inputValue.slice(0, 12);
             event.target.value = inputValue; // Update input field value
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                phone: ["Phone number cannot exceed 12 digits!"],
-            }));
+            // setErrors((prevErrors) => ({
+            //     ...prevErrors,
+            //     phone: ["Phone number cannot exceed 12 digits!"],
+            // }));
+            toast.error("Only letters and spaces are allowed!")
         }
     };
       
@@ -63,7 +68,8 @@ function SignUp () {
         axiosClient.post("/guest/signup", payload)  //making request to the server
             .then(({data}) => {
                 setUser(data.user);
-                console.log(data.user);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                // console.log(data.user);
                 //localStorage.setItem("userData", JSON.stringify(data.user)); 
                 setToken(data.token); 
             })
@@ -95,6 +101,7 @@ function SignUp () {
 
           <input
             ref={nameRef}
+            value={nameRef.current?.value}
             placeholder="Full Name"
             onChange={handleNameChange}
           />
@@ -109,7 +116,7 @@ function SignUp () {
           />
           {errors?.phone && <p className="error-message">{errors.phone[0]}</p>}
 
-          <label htmlFor="role">Select Role:</label>
+          {/* <label htmlFor="role">Select Role:</label> */}
           <select ref={account_typeRef} id="role" defaultValue="">
             <option value="" disabled hidden>
               Choose Role
@@ -130,6 +137,7 @@ function SignUp () {
           </p>
         </form>
       </div>
+      <Toaster/>
     </div>
   );
 }

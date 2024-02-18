@@ -65,6 +65,7 @@ export default function Users() {
       .get(url) 
       .then(({ data }) => {
         setLoading(false);
+    
         setUsers(data.data);
         setMeta(data.meta);
       })

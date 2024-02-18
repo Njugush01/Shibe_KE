@@ -12,11 +12,13 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import GuestLayout from "./layouts/GuestLayout";
 import UserForm from "./admin/UserForm";
 import ListedFoods from "./admin/ListedFoods";
+import VolunteerListed from "./volunteer/VolunteerListed";
 import Report from "./admin/Report";
 import FoodListings from "./donor/FoodListings";
 import ListingsForm from "./donor/ListingsForm";
 import DonorProfile from "./donor/DonorProfile";
 import AdminDashboard from "./dashboards/AdminDashboard";
+//import DataView from "../src/core/DataView";
 
 //import { Route } from "react-router-dom";
 //import {Navigate} from "react-router-dom";
@@ -51,6 +53,10 @@ const router = createBrowserRouter([
                 element: <ListedFoods/>
             },
             {
+                path: 'v-listed',
+                element: <VolunteerListed/>
+            },
+            {
                 path: 'listing',
                 element: <FoodListings/>
             },
@@ -71,6 +77,10 @@ const router = createBrowserRouter([
                 path: 'report',
                 element: <Report/>
             },
+            // {
+            //     path: 'data',
+            //     element: <DataView/>
+            // },
         ]
     },
     {

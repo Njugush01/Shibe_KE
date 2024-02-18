@@ -28,18 +28,20 @@ const DonorProfile = () => {
     })
   }, [])
 
-  const onSubmit = async (ev) =>{
+  const onSubmit = (ev) => {
     ev.preventDefault();
-    try {
-      await axiosClient.put(`/auth/users/${id}`,user)
-      setNotification("Profile was successfully updated")
-    } catch (error) {
-      const response = error.response;
-      if (response && response.status === 422) {
-        console.log(response.data.errors);
-        setErrors(response.data.errors)
-      }
-    }
+    console.log(user);
+    axiosClient.put(`/auth/user/${user.id}`, user)
+ .then(() => {
+  setNotification("Profile was successfully updated")
+  })
+  .catch(err => {
+     const response = err.response;
+     if (response && response.status === 422) {
+       console.log(response.data.errors);
+       setErrors(response.data.errors)
+     }
+   }) 
   }
 
   return (

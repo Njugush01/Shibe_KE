@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('quantity');
             $table->string('expiry_date');
             $table->string('location');
+            $table->tinyInteger('status')->default(0); // 0: pending, 1: accepted, 2: rejected
             $table->timestamps();
         });
     }

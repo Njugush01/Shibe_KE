@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axiosClient from "../axios-client"
 import { useStateContext } from "../contexts/ContextProvider";
+import Accounts from "../Util";
 
 export default function UserForm() {
     const {id} = useParams(); 
@@ -70,7 +71,7 @@ export default function UserForm() {
 
   return (
     <>
-      {user.id && <h1>Update User: {user.name}</h1>}
+      {user.id && <h1 className="font-bold text-2xl">Update User: {user.name}</h1>}
       {!user.id && <h1>New User</h1>}
       <div className="card animated fadeInDown">
         {loading && (
@@ -88,7 +89,7 @@ export default function UserForm() {
             <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Name"/>
             <input type="email" value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
             <input value={user.phone} onChange={ev => setUser({...user, phone: ev.target.value})} placeholder="Phone Number"/>
-            <input value={user.account_type} onChange={ev => setUser({...user, account_type: ev.target.value})} placeholder="Account Type"/>
+            <input value={Accounts(user.account_type)} onChange={ev => setUser({...user, account_type: ev.target.value})} placeholder="Account Type"/>
             <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Password"/>
             <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Confirm Password"/>
             <button className="btn">Save</button>

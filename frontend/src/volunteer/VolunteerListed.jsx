@@ -2,37 +2,24 @@ import { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
 import axiosClient from "../axios-client"
 import Pagination from "../Pagination";
-import Status from "../Status";
 
-export default function FoodListings() {
+
+export default function ListedFoods() {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [meta, setMeta] = useState({});
+  const [meta, setMeta] = useState({})
 
   const onPageClick = (link) => {
-    getListings(link.url)
-  }
-
+    getListings(link.url);
+  };
 
   useEffect(() => {
     getListings();
   }, [])
 
-  const onDelete = (listing) => {
-    if(!window.confirm("Are you sure you want to delete this listing?")) {
-      return
-    }
-
-    //removing the deleted listing from the list
-    axiosClient.delete(`/auth/listing/${listing.id}`)
-    .then(() => {
-      setNotification("Listing was successfully deleted")
-      getListings()
-    })
-  }
 
   const getListings = (url) => {
-    url = url || '/auth/listing'
+    url = url || '/auth/listed';
     setLoading(true)
     axiosClient.get(url)
       .then(({data}) =>{
@@ -50,8 +37,7 @@ export default function FoodListings() {
   return (
 <div>
        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-        <h1 className='font-bold text-2xl'>Food Listings</h1>
-        <Link to="/auth/listing/new" className="btn-add">Add new</Link>
+        <h1 className="font-bold text-2xl">Listed Food</h1>
       </div>
       <div className="card animated fadeInDown">
         <table>
@@ -64,20 +50,18 @@ export default function FoodListings() {
               <th>Expiry Date</th>
               <th>Location</th>
               <th>Create Date</th>
-              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           {loading && 
           <tbody>
             <tr>
-              <td colSpan="9" className="text-center">
+              <td colSpan="7" className="text-center">
                 loading...
               </td>
             </tr>
           </tbody>
           }
-
           {!loading &&
             <tbody>
               {listings.map(listing =>(
@@ -89,11 +73,10 @@ export default function FoodListings() {
                 <td>{listing.expiry_date}</td>
                 <td>{listing.location}</td>
                 <td>{listing.created_at}</td>
-                <td>{Status(listing.status)}</td>
                 <td>
-                  <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Edit</Link>
-                   &nbsp;
-                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
+                  {/* <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Accept</Link>
+                   &nbsp; */}
+                   <button onClick={ev => onDelete(listing)} className="bg-[#ffff89]">Claim</button>
                 </td>
             </tr>
           ))}
@@ -103,5 +86,6 @@ export default function FoodListings() {
       </div>
       <Pagination meta={meta} onPageClick={onPageClick} />
     </div>
+    
   )
 }

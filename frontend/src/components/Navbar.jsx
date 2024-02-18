@@ -3,10 +3,12 @@ import React,  { useState } from 'react';
 import "./NavbarStyles.css";
 import { MenuItems } from "./MenuItems";
 import {Link} from "react-router-dom"
+import { useStateContext } from '../contexts/ContextProvider';
 
 
 function Navbar(){
     const [clicked, setClicked] = useState(false);
+    const { isLoggedIn } = useStateContext();
 
     const handleClick = () =>{
         setClicked(!clicked);
@@ -29,9 +31,15 @@ function Navbar(){
                         </li>
                         )
                     })}
-                     <button> 
-                        <Link to='/guest/signin'>Sign in</Link>
-                     </button>
+                     {isLoggedIn ? (
+                        <Link className="nav-links" to="/guest/myaccount">
+                            My Account
+                        </Link>
+                    ) : (
+                        <Link className="nav-links" to="/guest/signin">
+                            Sign in
+                        </Link>
+                    )}
                 </ul>
             </nav>
         )

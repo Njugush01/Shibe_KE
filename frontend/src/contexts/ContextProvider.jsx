@@ -19,6 +19,7 @@ export const ContextProvider = ({children})=>{
     const[token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'));
     const[listing, setListing] = useState({});
     const[notification, _setNotification] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const setNotification = (message) =>{
         _setNotification(message);  //This will set the message
@@ -44,7 +45,9 @@ export const ContextProvider = ({children})=>{
             listing,
             setListing,
             notification,
-            setNotification
+            setNotification,
+            isLoggedIn, 
+            setIsLoggedIn
         }}>
             {children}
 

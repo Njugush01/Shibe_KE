@@ -11,7 +11,7 @@ function Login (){
 
     const [errors, setErrors] = useState(null)
 
-    const {setUser, setToken} = useStateContext()
+    const {setUser, setToken, setIsLoggedIn} = useStateContext()
 
     const onSubmit = (ev) =>{
         ev.preventDefault()
@@ -23,7 +23,9 @@ function Login (){
         axiosClient.post("/guest/signin", payload)  //making request to the server
             .then(({data}) => {
                 setUser(data.user)
+                localStorage.setItem('user', JSON.stringify(data.user));
                 setToken(data.token)   //whenever token information is available the app will rerender and user directed to dashboard
+                setIsLoggedIn(true)
             })
             .catch(err => {
                 const response = err.response;

@@ -1,6 +1,7 @@
 import DashboardCard from "./DashboardCard";
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
+import Status from "../Status";
 
 export default function AdminDashboard() {
     const [loading, setLoading] = useState(true);
@@ -83,6 +84,10 @@ export default function AdminDashboard() {
                                 <div className="flex justify-between text-sm mb-1">
                                     <div>Expiry Date:</div>
                                     <div>{data.latestListing.expiry_date}</div>
+                                </div>
+                                <div className="flex justify-between text-sm mb-1">
+                                    <div>Status:</div>
+                                    <div>{Status(data.latestListing.status)}</div>
                                 </div>
                             </div>
                         ) : (

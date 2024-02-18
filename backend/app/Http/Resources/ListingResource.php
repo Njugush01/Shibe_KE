@@ -21,8 +21,11 @@ class ListingResource extends JsonResource
             'title' => $this -> title,
             'description' => $this -> description,
             'quantity' => $this ->quantity,
+            'user_id' => $this -> user_id,
+            'email' => $this -> email,
             'expiry_date' => $this -> created_at->format('d-m-y'),
             'location' => $this -> location,
+            'status' => $this->status,
             'created_at' => $this -> created_at->format('d-m-y H:i:s'),
         ];
     }

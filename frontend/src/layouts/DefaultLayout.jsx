@@ -49,8 +49,9 @@ export default function DefaultLayout() {
             {account_type == 3 || account_type == 2  ? "":<Link to="/auth/admin-dashboard">Dashboard</Link>}
           
             {account_type == 3 || account_type == 2  ? "":<Link to="/auth/users">Users</Link>}
-            {account_type == 2  ? "":<Link to="/auth/listed">Listed Food</Link>}
+            {account_type == 2 || account_type == 3 ? "":<Link to="/auth/listed">Listed Food</Link>}
             {account_type == 1 || account_type == 3  ? "":<Link to="/auth/listing">List Food</Link>}
+            {account_type == 1 || account_type == 2  ? "":<Link to="/auth/v-listed">Listed Food</Link>}
             {account_type == 3 ? "":<Link to="/auth/report">Report</Link>}
         </aside> 
         <div className='content bg-[#e9e8e6]'>

@@ -21,6 +21,8 @@ class ListingResourceAdminDashboard extends JsonResource
             'quantity' => $this ->quantity,
             'expiry_date' => $this -> expiry_date,
             'location' => $this -> location,
+            'email' => $this -> email,
+            'status' => $this -> status,
             'created_at' => $this -> created_at->format('d-m-y H:i:s'),
         ];
     }

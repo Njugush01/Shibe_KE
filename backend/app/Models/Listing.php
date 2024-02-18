@@ -16,5 +16,11 @@ class Listing extends Model
         'expiry_date',
         'user_id',
         'location',
+        'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

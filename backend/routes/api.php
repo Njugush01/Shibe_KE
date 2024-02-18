@@ -28,11 +28,18 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('/auth/users', UserController::class);
     Route::apiResource('/auth/listing', ListingController::class);
     Route::apiResource('/auth/listed', AdminListingController::class);
-    
+    Route::apiResource('/auth/v-listed', AdminListingController::class);
+
+    Route::put('/auth/user/{user}', [UserController::class, 'update']);
+    Route::get('/auth/listing/{listing}', [ListingController::class, 'show']);
+    Route::put('/auth/listing/{listing}', [ListingController::class, 'updateStatus']);
+
 
 
     Route::get('/auth/dashboard', [DashboardController::class, 'index']);
     Route::get('/auth/admin-dashboard', [AdminDashboardController::class, 'index']);
+    
+
 });
    
 

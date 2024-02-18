@@ -12,7 +12,7 @@ function ListingsForm() {
     const {id} = useParams()
     const navigate = useNavigate();
     const [errors, setErrors] = useState(null)
-    const{setNotification} = useStateContext()
+    const{setNotification, user} = useStateContext()
     const [loading, setLoading] = useState(false)
     const [location, setLocation] = useState('');
     const[listing, setListing] = useState({
@@ -20,6 +20,7 @@ function ListingsForm() {
         title: '',
         description: '',
         quantity: '',
+        email: JSON.parse(localStorage.getItem('user')).email,
         expiry_date: '',
         location: location,
 
@@ -53,6 +54,7 @@ function ListingsForm() {
     //implementing save or form submit
     const onSubmit = (ev) =>{
         ev.preventDefault();
+        console.log(listing)
         if (listing.id) {
             axiosClient.put(`/auth/listing/${id}`,listing)
             .then(() =>{
