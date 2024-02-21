@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useRef, useState } from "react"
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
-import Loginimg from "../assets/login.jpg";
+import Loginimg from "../assets/login2.jpg";
 
 function Login (){
     const emailRef = useRef();
@@ -53,7 +53,7 @@ return (
         <div className="form">
             <form onSubmit={onSubmit}>
                 <h1 className="title font-bold text-3xl">
-                    Login into your account
+                    Log in into your account
                 </h1>
                 {
                 errors && <div className="alert">

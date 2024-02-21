@@ -24,7 +24,7 @@ export default function ListedFoods() {
     axiosClient.get(url)
       .then(({data}) =>{
         setLoading(false)
-        console.log(data.data)
+        // console.log(data.data)
         setListings(data.data)
         setMeta(data.meta)
       })
@@ -35,7 +35,7 @@ export default function ListedFoods() {
 
   const updateStatus = (id, status) => {
     axiosClient
-      .put(`/auth/listing/${id}`, { status })
+      .put(`/auth/listing/${id}/status`, { status })
       .then((res) => {
         console.log(res.data);
         
@@ -46,15 +46,15 @@ export default function ListedFoods() {
       });
   };
 
-  // const sendEmail = (email,status) => {
+  // const sendEmail = (email,status,data) => {
   //   let subject = "";
   //   let message = "";
   //   if (status === 1){
   //     subject = "Donation accepted"
-  //     message = "Hello, Your donation has been accepted"
+  //     message = `Hello, Your donation ${data.title} with the ID ${data.id} has been accepted`
   //   } else{
   //     subject = "Donation declined"
-  //     message = "Hello, Your donation has been declined"
+  //     message = `Hello, Your donation  ${data.title} with the ID ${data.id} has been declined`
   //   }
   
       
@@ -118,8 +118,8 @@ export default function ListedFoods() {
                 <td>{listing.created_at}</td>
                 <td>{Status(listing.status)}</td>
                 <td>
-                   <button onClick={()=>{updateStatus(listing.id, 1)}} className="btn-add">Accept</button> &nbsp;
-                   <button onClick={()=>{updateStatus(listing.id, 2)}} className="btn-delete">Reject</button>
+                   <button onClick={()=>{updateStatus(listing.id, 1,listing)}} className="btn-add">Accept</button> &nbsp;
+                   <button onClick={()=>{updateStatus(listing.id, 2,listing)}} className="btn-delete">Reject</button>
                 </td>
             </tr>
           ))}

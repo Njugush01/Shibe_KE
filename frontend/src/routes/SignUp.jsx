@@ -47,7 +47,7 @@ function SignUp () {
             //     ...prevErrors,
             //     phone: ["Phone number cannot exceed 12 digits!"],
             // }));
-            toast.error("Only letters and spaces are allowed!")
+            toast.error("Phone number cannot exceed 12 digits!")
         }
     };
       
@@ -117,7 +117,11 @@ function SignUp () {
           {errors?.phone && <p className="error-message">{errors.phone[0]}</p>}
 
           {/* <label htmlFor="role">Select Role:</label> */}
-          <select ref={account_typeRef} id="role" defaultValue="">
+          <select 
+              ref={account_typeRef} 
+              id="role" 
+              defaultValue=""
+              className="outline-none bg-white w-full border-2 border-gray-300 my-0 mb-6 py-3 px-4 box-border text-base transition-all duration-300 focus:border-purple-600">
             <option value="" disabled hidden>
               Choose Role
             </option>

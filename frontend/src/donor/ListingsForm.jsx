@@ -42,6 +42,7 @@ function ListingsForm() {
             axiosClient.get(`/auth/listing/${id}`)
             .then(({data}) =>{
                 setLoading(false)
+                // console.log(data)
                 setListing(data)
             })
             .catch(() =>{
@@ -54,7 +55,7 @@ function ListingsForm() {
     //implementing save or form submit
     const onSubmit = (ev) =>{
         ev.preventDefault();
-        console.log(listing)
+        // console.log(listing)
         if (listing.id) {
             axiosClient.put(`/auth/listing/${id}`,listing)
             .then(() =>{
@@ -115,6 +116,7 @@ function ListingsForm() {
                 <option value="vegetables">Vegetables</option>
                 <option value="dairy products">Dairy Products</option>
                 <option value="meats">Meats</option>
+                <option value="shopping">Shopping</option>
               </select>
             </div>
             <textarea value={listing.description} onChange={ev => setListing({...listing, description: ev.target.value})} placeholder="Description"/>

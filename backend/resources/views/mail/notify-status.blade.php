@@ -47,6 +47,7 @@
             <p>{{ $messageStatus }}</p>
         </div>
         <p class="footer">Thank you.</p>
+        <p class="footer">This email was sent by Food Link Ke.</p>
     </div>
 </body>
 </html>

@@ -32,7 +32,7 @@ function Navbar(){
                         )
                     })}
                      {isLoggedIn ? (
-                        <Link className="nav-links" to="/guest/myaccount">
+                        <Link className="nav-links" to="/guest/signin">
                             My Account
                         </Link>
                     ) : (

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ListingStoreRequest;
 use App\Http\Requests\ListingUpdateRequest;
 use App\Http\Resources\ListingResource;
+use App\Mail\NotifyAdmin;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,6 +45,12 @@ class ListingController extends Controller
         $data['user_id'] = $request->user()->id;
         $data['status'] = 0;
         $listing = Listing::create($data);
+
+        //send notification email to admin
+        $message = "Hello, a new donation has been made.";
+        Mail::to('njugunamuchaie@gmail.com')->send(new NotifyAdmin($message));
+
+
         return new ListingResource($listing);
 
     }
@@ -63,7 +70,6 @@ class ListingController extends Controller
     public function update(ListingUpdateRequest $request, Listing $listing)
     {
         $data = $request->validated();
-        die($data);
 
         //Update listing in the database
         $listing->update($data);
@@ -82,11 +88,6 @@ class ListingController extends Controller
 
     public function updateStatus(Request $request, Listing $listing)
     {
-        // $request->validate([
-        //     'status' => 'required|integer|between:0,2',
-        //     'user_id'=> 'required|integer|exists:users,id'
-        // ]);
-
         
         $listing->status = $request->status;
         $listing->save();
@@ -100,10 +101,10 @@ class ListingController extends Controller
 
         $message = "";
 
-        if ($listing-> status == '1') {
-            $message = "Hello $user->name, your donation has been accepted.";
-        } elseif ($listing-> status == '2') {
-            $message = "Hello $user->name, your donation has been rejected.";
+        if ($listing->status == 1) {
+            $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} was accepted.";
+        } elseif ($listing->status == 2) {
+            $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} was rejected.";
         }
         
 

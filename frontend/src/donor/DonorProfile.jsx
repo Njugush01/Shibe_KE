@@ -30,7 +30,7 @@ const DonorProfile = () => {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    console.log(user);
+    // console.log(user);
     axiosClient.put(`/auth/user/${user.id}`, user)
  .then(() => {
   setNotification("Profile was successfully updated")
