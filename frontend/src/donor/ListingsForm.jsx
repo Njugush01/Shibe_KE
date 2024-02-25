@@ -111,12 +111,11 @@ function ListingsForm() {
                   setListing({ ...listing, title: ev.target.value })
                 }
               >
-                <option value="">Select Food Type</option>
-                <option value="cereals">Cereals</option>
+                <option value="">Select Category</option>
+                <option value="cereals">Dry Foods</option>
                 <option value="vegetables">Vegetables</option>
                 <option value="dairy products">Dairy Products</option>
                 <option value="meats">Meats</option>
-                <option value="shopping">Shopping</option>
               </select>
             </div>
             <textarea value={listing.description} onChange={ev => setListing({...listing, description: ev.target.value})} placeholder="Description"/>

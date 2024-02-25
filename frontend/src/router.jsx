@@ -18,6 +18,7 @@ import FoodListings from "./donor/FoodListings";
 import ListingsForm from "./donor/ListingsForm";
 import DonorProfile from "./donor/DonorProfile";
 import AdminDashboard from "./dashboards/AdminDashboard";
+import DonorReport from "./donor/DonorReport";
 //import DataView from "../src/core/DataView";
 
 //import { Route } from "react-router-dom";
@@ -77,10 +78,10 @@ const router = createBrowserRouter([
                 path: 'report',
                 element: <Report/>
             },
-            // {
-            //     path: 'data',
-            //     element: <DataView/>
-            // },
+            {
+                path: 'donor-report',
+                element: <DonorReport/>
+            },
         ]
     },
     {

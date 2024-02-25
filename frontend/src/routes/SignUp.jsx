@@ -13,9 +13,13 @@ function SignUp () {
     const passwordRef = useRef();
     const passwordConfirmationRef = useRef();
 
-    const [errors, setErrors] = useState(null)
+    const [errors, setErrors] = useState(null);
 
     const {setUser, setToken} = useStateContext()
+    const [hide, setHide] = useState('hidden');
+
+    const [accountType, setAccountType] = useState(0);
+    const [policy, setPolicy] = useState(false);
 
     const handleNameChange = (event) => {
         const inputValue = event.target.value;
@@ -50,8 +54,11 @@ function SignUp () {
             toast.error("Phone number cannot exceed 12 digits!")
         }
     };
-      
 
+    const handleCheckboxChange = (event) => {
+      setPolicy(event.target.checked);
+      console.log(event.target.checked)
+    };
 
 
     const onSubmit = (ev) =>{
@@ -60,10 +67,12 @@ function SignUp () {
             name: nameRef.current.value,
             email:emailRef.current.value,
             phone: phoneRef.current.value,
-            account_type: account_typeRef.current.value,
+            account_type: accountType,
             password:passwordRef.current.value,
             password_confirmation: passwordConfirmationRef.current.value,
+            policy:policy,
         }
+        console.log(payload)
 
         axiosClient.post("/guest/signup", payload)  //making request to the server
             .then(({data}) => {
@@ -102,7 +111,7 @@ function SignUp () {
           <input
             ref={nameRef}
             value={nameRef.current?.value}
-            placeholder="Full Name"
+            placeholder="Organization Name"
             onChange={handleNameChange}
           />
           {errors?.name && <p className="error-message">{errors.name[0]}</p>}
@@ -118,7 +127,17 @@ function SignUp () {
 
           {/* <label htmlFor="role">Select Role:</label> */}
           <select 
-              ref={account_typeRef} 
+              //ref={account_typeRef} 
+              value={accountType}
+              onChange={(e) => {
+                setAccountType(e.target.value);
+                if(e.target.value == 3){
+                  setHide('');
+                }else{
+                  setHide('hidden');
+                }
+              
+              }}
               id="role" 
               defaultValue=""
               className="outline-none bg-white w-full border-2 border-gray-300 my-0 mb-6 py-3 px-4 box-border text-base transition-all duration-300 focus:border-purple-600">
@@ -135,6 +154,12 @@ function SignUp () {
             type="password"
             placeholder="Confirm Password"
           />
+          <input className={accountType =='3' ? '': hide} placeholder="ID Number"/>
+          <input className={accountType =='3' ? '': hide} 
+          checked={policy} 
+          onChange={handleCheckboxChange}
+        
+          type="checkbox"/>
           <button className="btn btn-block">Sign up</button>
           <p className="message">
             Already Registered? <Link to="/guest/signin">Sign in</Link>

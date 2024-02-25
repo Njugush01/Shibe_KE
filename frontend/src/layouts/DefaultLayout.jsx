@@ -44,15 +44,16 @@ export default function DefaultLayout() {
     <div className='defaultLayout'>
         <aside>
             <h1 className='font-bold text-3xl'>Food Link</h1>
-            <Link to="/auth/profile">My Profile</Link>
+            
             {account_type == 3 || account_type == 1 ? "":<Link to="/auth/dashboard">Dashboard</Link>}
             {account_type == 3 || account_type == 2  ? "":<Link to="/auth/admin-dashboard">Dashboard</Link>}
-          
+            <Link to="/auth/profile">My Profile</Link>
             {account_type == 3 || account_type == 2  ? "":<Link to="/auth/users">Users</Link>}
             {account_type == 2 || account_type == 3 ? "":<Link to="/auth/listed">Listed Food</Link>}
             {account_type == 1 || account_type == 3  ? "":<Link to="/auth/listing">List Food</Link>}
             {account_type == 1 || account_type == 2  ? "":<Link to="/auth/v-listed">Listed Food</Link>}
-            {account_type == 3 ? "":<Link to="/auth/report">Report</Link>}
+            {account_type == 3 || account_type == 2  ? "":<Link to="/auth/report">Report</Link>}
+            {account_type == 1 || account_type == 3? "":<Link to="/auth/donor-report">Report</Link>}
         </aside> 
         <div className='content bg-[#e9e8e6]'>
             <header>

@@ -3,11 +3,13 @@ import {Link} from "react-router-dom"
 import axiosClient from "../axios-client"
 import Pagination from "../Pagination";
 import Status from "../Status";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function FoodListings() {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [meta, setMeta] = useState({});
+  const {setNotification} = useStateContext();
 
   const onPageClick = (link) => {
     getListings(link.url)
@@ -58,7 +60,7 @@ export default function FoodListings() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Food Type</th>
+              <th>Category</th>
               <th>Description</th>
               <th>Quantity</th>
               <th>Expiry Date</th>

@@ -14,7 +14,12 @@ function Home(){
         text="Transform excess into empathy, building a stronger community."  
         buttonText="Donate"
         url="/guest/signup"
-        btnClass="show"      
+        btnClass="show"    
+        additionalButton={{
+            buttonText: "Become a volunteer",
+            url: "/guest/signup",
+            btnClass: "bg-white hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-2 px-4 border  rounded"
+        }}       
         />
         
         <Causes/>

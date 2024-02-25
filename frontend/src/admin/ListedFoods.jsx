@@ -86,7 +86,7 @@ export default function ListedFoods() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Food Type</th>
+              <th>Category</th>
               <th>Description</th>
               <th>Quantity</th>
               <th>Expiry Date</th>
