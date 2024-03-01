@@ -17,6 +17,7 @@ class Listing extends Model
         'user_id',
         'location',
         'status',
+        'claimed',
     ];
 
     public function user()

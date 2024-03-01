@@ -45,6 +45,7 @@ class ListingController extends Controller
         // return $data;
         $data['user_id'] = $request->user()->id;
         $data['status'] = 0;
+        $data['claimed'] = 0;
         $listing = Listing::create($data);
 
         $user = $listing->user;

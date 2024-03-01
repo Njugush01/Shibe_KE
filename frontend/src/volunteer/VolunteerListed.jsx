@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import Pagination from "../Pagination";
-import toast, { Toaster } from 'react-hot-toast'; 
-
+import toast, { Toaster } from "react-hot-toast";
 
 export default function VolunteerListed() {
   const [listings, setListings] = useState([]);
@@ -15,7 +14,6 @@ export default function VolunteerListed() {
 
   useEffect(() => {
     getListings();
-    
   }, []);
 
   const getListings = (url) => {
@@ -26,32 +24,48 @@ export default function VolunteerListed() {
       .then(({ data }) => {
         setLoading(false);
         //console.log(data);
-        setListings(data.data.map(listing => ({ ...listing, claimed: listing.claimed === 1 })));
+        setListings(data.data);
         setMeta(data.meta);
       })
       .catch(() => {
         setLoading(false);
       });
   };
-  
 
   const onClaim = (listing) => {
     if (listing.claimed) {
-      toast.error('Listing already claimed');
+      toast.error("Listing already claimed");
       return;
     }
     axiosClient
       .put(`/auth/listing/${listing.id}/claim`)
-      .then((response) => {
-        setListings((prevListings) =>
-          prevListings.map((item) =>
-            item.id === listing.id ? { ...item, claimed: 1 } : item
-          )
-        );
+      .then(() => {
+        const updatedListings = listings.map((item) => {
+          if (item.id === listing.id) {
+            return {
+              ...item,
+              claimed: 1,
+            };
+          }
+          return item;
+        });
+        setListings(updatedListings);
       })
       .catch((error) => {
         console.error("Error claiming listing:", error);
       });
+
+    // .put(`/auth/listing/${listing.id}/claim`)
+    // .then((response) => {
+    //   setListings((prevListings) =>
+    //     prevListings.map((item) =>
+    //       item.id === listing.id ? { ...item, claimed: 1 } : item
+    //     )
+    //   );
+    // })
+    // .catch((error) => {
+    //   console.error("Error claiming listing:", error);
+    // });
   };
 
   return (
@@ -70,7 +84,7 @@ export default function VolunteerListed() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Food Type</th>
+              <th>Category</th>
               <th>Description</th>
               <th>Quantity</th>
               <th>Expiry Date</th>
@@ -102,9 +116,8 @@ export default function VolunteerListed() {
                   <td>
                     <button
                       onClick={(ev) => onClaim(listing)}
-                    
                       className={
-                        listing.claimed == 1  ? "bg-gray-200" : "bg-[#ffff89]"
+                        listing.claimed == 1 ? "bg-gray-200" : "bg-[#ffff89]"
                       }
                       disabled={listing.claimed}
                     >
@@ -118,7 +131,7 @@ export default function VolunteerListed() {
         </table>
       </div>
       <Pagination meta={meta} onPageClick={onPageClick} />
-      <Toaster/>
+      <Toaster />
     </div>
   );
 }

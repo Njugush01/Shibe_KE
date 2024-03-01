@@ -12,8 +12,9 @@ const arrayOfObjects = [
     return array.filter(obj => {
       // Iterate over object properties
       for (let key in obj) {
+        if(obj[key] === null) continue;
         // Check if the property value contains the searchString
-        if (obj[key].toString().includes(searchString)) {
+        if (obj[key].toString().toLowerCase().includes(searchString)) {
           // If any property value contains the searchString, include the object in the filtered array
           return true;
         }
@@ -23,7 +24,7 @@ const arrayOfObjects = [
     });
   }
   
-  // Example usage:
-  // const searchResults = searchObjectsByValue(arrayOfObjects, 'p');
-  // console.log(searchResults);
+   //Example usage:
+  //  const searchResults = searchObjectsByValue(arrayOfObjects, 'p');
+  //  console.log(searchResults);
   

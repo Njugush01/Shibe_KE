@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
-import Accounts from "../Util";
+//import Accounts from "../Util";
 import Pagination from "../Pagination";
 import searchObjectsByValue from "../Search";
-
+import SearchRole from "../core/SearchRole";
 export default function Users() {
   const [users, setUsers] = useState([]);
   const [searchedUsers, setSearchedUsers] = useState([]);
@@ -29,7 +29,7 @@ export default function Users() {
         <td>{u.name}</td>
         <td>{u.email}</td>
         <td>{u.phone}</td>
-        <td>{Accounts(u.account_type)}</td>
+        <td>{(u.account_type)}</td>
         <td>{u.created_at}</td>
         <td>
           <Link className="btn-edit" to={"/auth/users/" + u.id}>
@@ -65,8 +65,11 @@ export default function Users() {
       .get(url) 
       .then(({ data }) => {
         setLoading(false);
-    
         setUsers(data.data);
+        //console.log(data.data)
+        SearchRole(data.data)
+        console.log(SearchRole(data.data));
+        
         setMeta(data.meta);
       })
       .catch(() => {
@@ -75,11 +78,11 @@ export default function Users() {
   };
 
   const handleSearch = (e) => {
-    const input = e.target.value.toLowerCase();
-    //searchObjectsByValue(users, input);
+    const input = e.target.value.toString().toLowerCase();
     setSearchQuery(input);
     setSearchedUsers(searchObjectsByValue(users, input));
-    
+    // console.log(input)
+    // console.log(users)
 
   };
   

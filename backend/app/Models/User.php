@@ -23,6 +23,9 @@ class User extends Authenticatable
         'account_type',
         'phone',
         'password',
+        'id_number',
+        'address',
+        'privacy_policy',
     ];
 
     /**

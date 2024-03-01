@@ -26,6 +26,7 @@ class ListingResource extends JsonResource
             'expiry_date' => $this -> expiry_date,
             'location' => $this -> location,
             'status' => $this->status,
+            'claimed' => $this -> claimed,
             'created_at' => $this -> created_at->format('d-m-y H:i:s'),
         ];
     }
