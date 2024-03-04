@@ -13,10 +13,24 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    function generatePassword($length = 10) {
+        // Define characters that can be used in the password
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_';
+
+        // Generate random password
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $chars[rand(0, strlen($chars) - 1)];
+        }
+
+        return $password;
+    }
+
     public function signup(SignupRequest $request)
     {
         $data = $request->validated();
         // Log::info(json_encode($data));
+
 
         // die (json_encode($data));
         /** @var \App\Models\User $user */
@@ -25,9 +39,9 @@ class AuthController extends Controller
             'account_type' => $data['account_type'],
             'phone' => $data['phone'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'id_number' => $data['id_number'], 
-            'address' => $data['address'], 
+            'password' => bcrypt($this->generatePassword(5)), //$data['password']
+            'id_number' => $data['id_number'],
+            'address' => $data['address'],
             'privacy_policy' => $data['privacy_policy'],
         ]);
 
