@@ -68,7 +68,7 @@ export default function Users() {
         setUsers(data.data);
         //console.log(data.data)
         SearchRole(data.data)
-        console.log(SearchRole(data.data));
+        //console.log(SearchRole(data.data));
         
         setMeta(data.meta);
       })

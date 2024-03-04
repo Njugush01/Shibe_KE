@@ -16,21 +16,13 @@ function SignUp() {
   const addressRef = useRef();
   const privacyPolicyRef = useRef();
 
-  // let passwordRef = null;
-  // let passwordConfirmationRef = null;
-
-  // if (!isVolunteer){
-  //   passwordRef = useRef();
-  //   passwordConfirmationRef = useRef();
-  // }
 
   const [errors, setErrors] = useState(null);
 
   const { setUser, setToken } = useStateContext();
-  //const [hide, setHide] = useState("hidden");
 
   const [accountType, setAccountType] = useState("");
-  //const [policy, setPolicy] = useState(false);
+  
 
   const handleNameChange = (event) => {
     const inputValue = event.target.value;
@@ -39,10 +31,6 @@ function SignUp() {
     if (/^[A-Za-z\s]+$/.test(inputValue) || inputValue === "") {
       setErrors((prevErrors) => ({ ...prevErrors, name: null }));
     } else {
-      // setErrors((prevErrors) => ({
-      //   ...prevErrors,
-      //   // name: ["Only letters and spaces are allowed!"],
-      // }));
       toast.error("Only letters and spaces are allowed!");
     }
   };
@@ -58,51 +46,84 @@ function SignUp() {
       // Trim input to 12 digits
       inputValue = inputValue.slice(0, 12);
       event.target.value = inputValue; // Update input field value
-      // setErrors((prevErrors) => ({
-      //     ...prevErrors,
-      //     phone: ["Phone number cannot exceed 12 digits!"],
-      // }));
       toast.error("Phone number cannot exceed 12 digits!");
     }
   };
-
-  // const handleCheckboxChange = (event) => {
-  //   setPolicy(event.target.checked);
-  //   console.log(event.target.checked)
-  // };
 
   const handleRoleChange = (event) => {
     setAccountType(event.target.value);
   };
 
+  // const generateRandomPassword = () => {
+  //   const symbols = "!@#$%^&*()_+{}:<>?|[];',./`~";
+  //   const letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  //   const passwordLength = 8;
+  //   let password = "";
+  //   for (let i = 0; i < passwordLength; i++) {
+  //     password += letters.charAt(Math.floor(Math.random() * letters.length));
+  //   }
+  //   return password;
+  // };
+
+  // const sendEmail = (UserName,email, password) => {
+  //   axiosClient.post("/send-email", {UserName, email, password})
+  //   .then(()=>{
+  //     toast.success(`Email sent to ${email}`);
+  //   })
+  //   .catch((error)=>{
+  //     console.error("Error sending email:", error);
+  //       toast.error("Failed to send email");
+  //   })
+  // }
+
   const onSubmit = (ev) => {
     ev.preventDefault();
-    const payload = {
+    let payload = {
       name: nameRef.current.value,
       email: emailRef.current.value,
       phone: phoneRef.current.value,
       account_type: accountType,
-      password: passwordRef.current.value,
-      password_confirmation: passwordConfirmationRef.current.value,
+      //password: passwordRef.current.value,
+      //password_confirmation: passwordConfirmationRef.current.value,
       id_number: idNumberRef.current.value,
       address: addressRef.current.value,
       privacy_policy: privacyPolicyRef.current.checked,
     };
-    console.log("Checkbox status:", privacyPolicyRef.current.checked);
+
+    if (accountType === "2") { // Donor
+      payload = {
+          ...payload,
+          password: passwordRef.current.value,
+          password_confirmation: passwordConfirmationRef.current.value,
+      };
+  } else if (accountType === "3") { // Volunteer
+      payload = {
+          ...payload,
+          id_number: idNumberRef.current.value,
+          address: addressRef.current.value,
+          privacy_policy: privacyPolicyRef.current.checked,
+      };
+  }
+    //console.log("Checkbox status:", privacyPolicyRef.current.checked);
+    //console.log(payload)
 
     axiosClient
-      .post("/guest/signup", payload) //making request to the server
+      .post("/guest/signup", payload) 
       .then(({ data }) => {
         setUser(data.user);
         localStorage.setItem("user", JSON.stringify(data.user));
-        // console.log(data.user);
-        //localStorage.setItem("userData", JSON.stringify(data.user));
-        setToken(data.token);
+        //setToken(data.token);
+
+        if (accountType === "3") {
+          const randomPassword = generateRandomPassword();
+          sendEmail(data.user.name, data.user.email, randomPassword);
+          toast.success("Volunteer account created successfully");
+          toast.success("Password sent to your email");
+        }
       })
       .catch((err) => {
         const response = err.response;
         if (response && response.status === 422) {
-          //console.log(response.data.errors);
           setErrors(response.data.errors);
         }
       });
@@ -139,7 +160,7 @@ function SignUp() {
             className="outline-none bg-white w-full border-2 border-gray-300 my-0 mb-6 py-3 px-4 box-border text-base transition-all duration-300 focus:border-purple-600"
           >
             <option value="" disabled hidden>
-              Choose Role
+              Select Role
             </option>
             {/* <option value="1">Admin</option>  */}
             <option value="3">Volunteer</option>
@@ -171,7 +192,7 @@ function SignUp() {
               <input
                 ref={addressRef || 0}
                 type="text"
-                placeholder="Residential Address"
+                placeholder="Kahawa, wendani"
               />
               <label
                 style={{

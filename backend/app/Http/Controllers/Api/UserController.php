@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\SignupRequest;
 use App\Models\User;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
+use App\Mail\VolunteerRegistration;
+use Illuminate\Support\Facades\Mail;
+
 
 class UserController extends Controller
 {
@@ -28,6 +33,8 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $user = user::create($data);
+
+
         return response( new UserResource($user), 201);
     }
 
@@ -62,4 +69,19 @@ class UserController extends Controller
 
         return response("", 204);
     }
+
+    public function sendEmail(SignupRequest $request)
+    {
+        $data = $request->validated([
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        
+        Mail::to($data['email'])->send(new VolunteerRegistration($data['name'], $data['password']));
+
+        return response()->json(['message' => 'Email sent successfully']);
+    }
+
+    
 }

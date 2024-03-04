@@ -16,23 +16,32 @@ class AuthController extends Controller
     public function signup(SignupRequest $request)
     {
         $data = $request->validated();
-        // Log::info(json_encode($data));
-
-        // die (json_encode($data));
-        /** @var \App\Models\User $user */
-        $user = User::create([ //save a user and return user
+    
+        // Initialize an array with the common user data
+        $userData = [
             'name' => $data['name'],
             'account_type' => $data['account_type'],
             'phone' => $data['phone'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'id_number' => $data['id_number'], 
-            'address' => $data['address'], 
-            'privacy_policy' => $data['privacy_policy'],
-        ]);
-
+        ];
+    
+        // Check the account type
+        if ($data['account_type'] === '2') { // Donor
+            // Include password for donor
+            $userData['password'] = bcrypt($data['password']);
+        } elseif ($data['account_type'] === '3') { // Volunteer
+            // Include id_number, address, and privacy_policy for volunteer
+            $userData['id_number'] = $data['id_number'];
+            $userData['address'] = $data['address'];
+            $userData['privacy_policy'] = $data['privacy_policy'];
+        }
+    
+        // Create user with the modified data
+        $user = User::create($userData);
+    
+        // Generate token
         $token = $user->createToken('main')->plainTextToken;
-
+    
         return response(compact('user', 'token'));
     }
 
