@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Mail\VolunteerRegistration;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
@@ -33,6 +34,13 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($data['password']);
         $user = user::create($data);
+
+        // if ($data['account_type'] === '3') {
+        //     $password = $this->generatePassword();
+    
+        //     $user->update(['password' => bcrypt($password)]);
+              
+        // }
 
 
         return response( new UserResource($user), 201);
@@ -70,18 +78,45 @@ class UserController extends Controller
         return response("", 204);
     }
 
-    public function sendEmail(SignupRequest $request)
-    {
-        $data = $request->validated([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        
-        Mail::to($data['email'])->send(new VolunteerRegistration($data['name'], $data['password']));
+    //create a function to send email to a volunteer, containing the generated password once they register
+    // public function sendEmail(SignupRequest $request)
+    // {
+    //     $data = $request->validated();
+    //     $data['password'] = bcrypt($data['password']);
+    //     $user = user::create($data);
 
-        return response()->json(['message' => 'Email sent successfully']);
-    }
+    //     if ($data['account_type'] === '3') {
+    //         $password = $this->generatePassword();
+    
+    //         $user->update(['password' => bcrypt($password)]);
+
+    //         // Send email notification
+    //         Mail::to($user->email)->send(new VolunteerRegistration($user->name, $password));
+    //     }
+    //     return response( new UserResource($user), 201);
+    // }
+
+    // public function sendEmail(Request $request)
+    // {
+    //     $data = $request->validate([
+    //         'userName' => 'required|string',
+    //         'email' => 'required|email',
+    //         'password' => 'required|string',
+    //     ]);
+
+    //     $name = $data['userName'];
+    //     $email = $data['email'];
+    //     $password = $data['password'];
+
+    //     try {
+    //         // Send email notification
+    //         Mail::to($email)->send(new VolunteerRegistration($name, $password));
+
+    //         return response()->json(['message' => 'Email sent successfully'], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['message' => 'Failed to send email'], 500);
+    //     }
+    // }
 
     
 }

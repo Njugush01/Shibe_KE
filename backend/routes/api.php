@@ -38,9 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/auth/dashboard', [DashboardController::class, 'index']);
     Route::get('/auth/admin-dashboard', [AdminDashboardController::class, 'index']);
-    Route::post('/send-email', [UserController::class, 'sendEmail']);
+    
 
 });
 
 Route::post('/guest/signup', [AuthController::class, 'signup']);
 Route::post('/guest/signin', [AuthController::class, 'signin']);
+Route::post('/send-email', [UserController::class, 'sendEmail']);

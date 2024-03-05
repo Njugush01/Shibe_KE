@@ -31,7 +31,7 @@ export default function ListedFoods() {
         //console.log(data.data)
         setListings(data.data)
         SearchStatus(data.data)
-        console.log(SearchStatus(data.data))
+        //console.log(SearchStatus(data.data))
         setMeta(data.meta)
       })
       .catch(() =>{

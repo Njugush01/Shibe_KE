@@ -12,7 +12,7 @@ class VolunteerListingController extends Controller
     {
         return ListingResource::collection(
             Listing::orderBy('created_at', 'desc')
-            ->paginate(7)
+            ->paginate(6)
         );
     }
 }

@@ -15,13 +15,12 @@ class VolunteerRegistration extends Mailable
 
     public $name;
     public $password;
-
     /**
      * Create a new message instance.
      */
-    public function __construct($name, $password)
+    public function __construct($username, $password)
     {
-        $this->name = $name;
+        $this->name = $username;
         $this->password = $password;
     }
 
@@ -41,7 +40,7 @@ class VolunteerRegistration extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.volunteer-registration',
+            view: 'mail.notify-volunteer',
             with: ['name' => $this->name, 'password' => $this->password]
         );
     }

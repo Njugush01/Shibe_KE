@@ -4,8 +4,22 @@ import companyLogo from "../assets/pdflogo.png";
 
 export default function generatePdf(data, filename, userName, currentDate) {
   const doc = new jsPDF();
-  const columns = Object.keys(data[0]);
-  const tableData = data.map((item) => Object.values(item));
+  //console.log(Object.keys(data[0]))
+  let newData = [];
+  // newData.pop('user_id');
+  // newData.pop('claimed');
+  for (let i = 0; i < data.length; i++) {
+    //console.log(data[i])
+    delete data[i].user_id;
+    delete data[i].claimed;
+    delete data[i].privacy_policy;
+    
+    newData.push(data[i]);
+  }
+
+  
+  const columns = Object.keys(newData[0]);
+  const tableData = newData.map((item) => Object.values(item));
 
   // Add current date at the top right corner
   const dateFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
 import Signupimg from "../assets/signup.jpg";
@@ -20,6 +20,7 @@ function SignUp() {
   const [errors, setErrors] = useState(null);
 
   const { setUser, setToken } = useStateContext();
+  //const navigate = useNavigate();
 
   const [accountType, setAccountType] = useState("");
   
@@ -31,7 +32,7 @@ function SignUp() {
     if (/^[A-Za-z\s]+$/.test(inputValue) || inputValue === "") {
       setErrors((prevErrors) => ({ ...prevErrors, name: null }));
     } else {
-      toast.error("Only letters and spaces are allowed!");
+      toast.error("Only letters and spaces are allowed!", { duration: 4000 });
     }
   };
 
@@ -46,7 +47,7 @@ function SignUp() {
       // Trim input to 12 digits
       inputValue = inputValue.slice(0, 12);
       event.target.value = inputValue; // Update input field value
-      toast.error("Phone number cannot exceed 12 digits!");
+      toast.error("Phone number cannot exceed 12 digits!", { duration: 4000 });
     }
   };
 
@@ -65,8 +66,8 @@ function SignUp() {
   //   return password;
   // };
 
-  // const sendEmail = (UserName,email, password) => {
-  //   axiosClient.post("/send-email", {UserName, email, password})
+  // const sendEmail = (name,email, password) => {
+  //   axiosClient.post("/send-email", {name, email, password})
   //   .then(()=>{
   //     toast.success(`Email sent to ${email}`);
   //   })
@@ -85,8 +86,8 @@ function SignUp() {
       account_type: accountType,
       //password: passwordRef.current.value,
       //password_confirmation: passwordConfirmationRef.current.value,
-      id_number: idNumberRef.current.value,
-      address: addressRef.current.value,
+      id_number: '',
+      address: '',
       privacy_policy: privacyPolicyRef.current.checked,
     };
 
@@ -105,7 +106,7 @@ function SignUp() {
       };
   }
     //console.log("Checkbox status:", privacyPolicyRef.current.checked);
-    //console.log(payload)
+    console.log(payload)
 
     axiosClient
       .post("/guest/signup", payload) 
@@ -115,10 +116,10 @@ function SignUp() {
         //setToken(data.token);
 
         if (accountType === "3") {
-          const randomPassword = generateRandomPassword();
-          sendEmail(data.user.name, data.user.email, randomPassword);
-          toast.success("Volunteer account created successfully");
-          toast.success("Password sent to your email");
+          //sendEmail(data.user.name, data.user.email);
+          toast.success("Account created successfully", { duration: 4000 });
+          toast.success(" Your log in password has been sent to your email", { duration: 4000 });
+          //navigate("/guest/signin");
         }
       })
       .catch((err) => {
@@ -135,21 +136,21 @@ function SignUp() {
     <div
       className="login-signup-form animated fadeindown"
       style={{
-        backgroundImage: `url(${Signupimg})`, // Specifies the path to the image
-        backgroundSize: "cover", // Adjusts the background image size to cover the entire container
-        backgroundPosition: "center", // Centers the background image
-      }}
+        backgroundImage: `url(${Signupimg})`, 
+        backgroundSize: "cover", 
+        backgroundPosition: "center", 
+      }} 
     >
       <div className="form">
         <form onSubmit={onSubmit}>
           <h1 className="title font-bold text-3xl">Sign Up for free</h1>
-          {errors && (
+          {/* {errors && (
             <div className="alert">
               {Object.keys(errors).map((key) => (
                 <p key={key}>{errors[key] && errors[key][0]}</p>
               ))}
             </div>
-          )}
+          )} */}
 
           <select
             //ref={account_typeRef}
@@ -173,27 +174,30 @@ function SignUp() {
             placeholder={isVolunteer ? "John Doe" : "Organization Name"}
             onChange={handleNameChange}
           />
-          {errors?.name && <p className="error-message">{errors.name[0]}</p>}
+          {errors?.name && <p className="error-message text-red-500 text-sm">{errors.name[0]}</p>}
 
           <input ref={emailRef} type="email" placeholder="Email Address" />
+          {errors?.email && <p className="error-message text-red-500 text-sm">{errors.email[0]}</p>}
           <input
             ref={phoneRef}
             type="tel"
             placeholder="Mobile Number: 254712345678"
             onChange={handlePhoneChange}
           />
-          {errors?.phone && <p className="error-message">{errors.phone[0]}</p>}
+          {errors?.phone && <p className="error-message text-red-500 text-sm">{errors.phone[0]}</p>}
 
           {/* <label htmlFor="role">Select Role:</label> */}
 
-          {isVolunteer && (
-            <>
+          
+            <div className={!isVolunteer ? "hidden" : ''}>
               <input ref={idNumberRef || 0} type="text" placeholder="ID Number" />
+              {errors?.id_number && <p className="error-message text-red-500 text-sm">{errors.id_number[0]}</p>}
               <input
                 ref={addressRef || 0}
                 type="text"
                 placeholder="Kahawa, wendani"
               />
+               {errors?.address && <p className="error-message text-red-500 text-sm">{errors.address[0]}</p>}
               <label
                 style={{
                   whiteSpace: "nowrap",
@@ -211,11 +215,12 @@ function SignUp() {
                   I agree to the privacy policy
                 </span>
               </label>
-            </>
-          )}
+            </div>
+          
 
           <div className={isVolunteer ? "hidden" : ""}>
             <input ref={passwordRef} type="password" placeholder="Password" />
+            {errors?.password && <p className="error-message text-red-500 text-sm">{errors.password[0]}</p>}
             <input
               ref={passwordConfirmationRef}
               type="password"
