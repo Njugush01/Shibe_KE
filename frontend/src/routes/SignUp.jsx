@@ -16,14 +16,14 @@ function SignUp() {
   const addressRef = useRef();
   const privacyPolicyRef = useRef();
 
-
   const [errors, setErrors] = useState(null);
 
   const { setUser, setToken } = useStateContext();
   //const navigate = useNavigate();
 
   const [accountType, setAccountType] = useState("");
-  
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleNameChange = (event) => {
     const inputValue = event.target.value;
@@ -79,6 +79,7 @@ function SignUp() {
 
   const onSubmit = (ev) => {
     ev.preventDefault();
+    setLoading(true);
     let payload = {
       name: nameRef.current.value,
       email: emailRef.current.value,
@@ -86,41 +87,52 @@ function SignUp() {
       account_type: accountType,
       //password: passwordRef.current.value,
       //password_confirmation: passwordConfirmationRef.current.value,
-      id_number: '',
-      address: '',
+      id_number: "",
+      address: "",
       privacy_policy: privacyPolicyRef.current.checked,
     };
 
-    if (accountType === "2") { // Donor
+    if (accountType === "2") {
+      // Donor
       payload = {
-          ...payload,
-          password: passwordRef.current.value,
-          password_confirmation: passwordConfirmationRef.current.value,
+        ...payload,
+        password: passwordRef.current.value,
+        password_confirmation: passwordConfirmationRef.current.value,
       };
-  } else if (accountType === "3") { // Volunteer
+    } else if (accountType === "3") {
+      // Volunteer
       payload = {
-          ...payload,
-          id_number: idNumberRef.current.value,
-          address: addressRef.current.value,
-          privacy_policy: privacyPolicyRef.current.checked,
+        ...payload,
+        id_number: idNumberRef.current.value,
+        address: addressRef.current.value,
+        privacy_policy: privacyPolicyRef.current.checked,
       };
-  }
+    }
     //console.log("Checkbox status:", privacyPolicyRef.current.checked);
-    console.log(payload)
+    console.log(payload);
 
     axiosClient
-      .post("/guest/signup", payload) 
+      .post("/guest/signup", payload)
       .then(({ data }) => {
+        setLoading(false);
         setUser(data.user);
         localStorage.setItem("user", JSON.stringify(data.user));
         //setToken(data.token);
 
-        if (accountType === "3") {
-          //sendEmail(data.user.name, data.user.email);
+        if (accountType === "2") {
+          toast.success("Account created successfully proceed to login", { duration: 4000 });
+        } else if (accountType === "3") {
           toast.success("Account created successfully", { duration: 4000 });
-          toast.success(" Your log in password has been sent to your email", { duration: 4000 });
-          //navigate("/guest/signin");
+          toast.success(" Your log in password has been sent to your email", {
+            duration: 4000,
+          });
         }
+
+        // if (accountType === "3") {
+        //   setSuccessMessage("Registered successfully. Your login password has been sent to your email.");
+        // } else if (accountType === "2") {
+        //   setSuccessMessage("Registered successfully. Proceed to login.");
+        // }
       })
       .catch((err) => {
         const response = err.response;
@@ -136,10 +148,10 @@ function SignUp() {
     <div
       className="login-signup-form animated fadeindown"
       style={{
-        backgroundImage: `url(${Signupimg})`, 
-        backgroundSize: "cover", 
-        backgroundPosition: "center", 
-      }} 
+        backgroundImage: `url(${Signupimg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="form">
         <form onSubmit={onSubmit}>
@@ -152,6 +164,21 @@ function SignUp() {
             </div>
           )} */}
 
+          {loading && (
+             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">
+             <svg
+               className="animate-spin h-10 w-10 text-blue-500"
+               fill="none"
+               viewBox="0 0 20 20"
+               xmlns="http://www.w3.org/2000/svg"
+             >
+               <path
+                 d="M10 3C6.13401 3 3 6.13401 3 10C3 10.2761 2.77614 10.5 2.5 10.5C2.22386 10.5 2 10.2761 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10C18 14.4183 14.4183 18 10 18C9.72386 18 9.5 17.7761 9.5 17.5C9.5 17.2239 9.72386 17 10 17C13.866 17 17 13.866 17 10C17 6.13401 13.866 3 10 3Z"
+                 fill="#212121"
+               />
+             </svg>
+           </div>
+          )}
           <select
             //ref={account_typeRef}
             value={accountType}
@@ -174,53 +201,75 @@ function SignUp() {
             placeholder={isVolunteer ? "John Doe" : "Organization Name"}
             onChange={handleNameChange}
           />
-          {errors?.name && <p className="error-message text-red-500 text-sm">{errors.name[0]}</p>}
+          {errors?.name && (
+            <p className="error-message text-red-500 text-sm">
+              {errors.name[0]}
+            </p>
+          )}
 
           <input ref={emailRef} type="email" placeholder="Email Address" />
-          {errors?.email && <p className="error-message text-red-500 text-sm">{errors.email[0]}</p>}
+          {errors?.email && (
+            <p className="error-message text-red-500 text-sm">
+              {errors.email[0]}
+            </p>
+          )}
           <input
             ref={phoneRef}
             type="tel"
             placeholder="Mobile Number: 254712345678"
             onChange={handlePhoneChange}
           />
-          {errors?.phone && <p className="error-message text-red-500 text-sm">{errors.phone[0]}</p>}
+          {errors?.phone && (
+            <p className="error-message text-red-500 text-sm">
+              {errors.phone[0]}
+            </p>
+          )}
 
           {/* <label htmlFor="role">Select Role:</label> */}
 
-          
-            <div className={!isVolunteer ? "hidden" : ''}>
-              <input ref={idNumberRef || 0} type="text" placeholder="ID Number" />
-              {errors?.id_number && <p className="error-message text-red-500 text-sm">{errors.id_number[0]}</p>}
+          <div className={!isVolunteer ? "hidden" : ""}>
+            <input ref={idNumberRef || 0} type="text" placeholder="ID Number" />
+            {errors?.id_number && (
+              <p className="error-message text-red-500 text-sm">
+                {errors.id_number[0]}
+              </p>
+            )}
+            <input
+              ref={addressRef || 0}
+              type="text"
+              placeholder="Kahawa, wendani"
+            />
+            {errors?.address && (
+              <p className="error-message text-red-500 text-sm">
+                {errors.address[0]}
+              </p>
+            )}
+            <label
+              style={{
+                whiteSpace: "nowrap",
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "1rem",
+              }}
+            >
               <input
-                ref={addressRef || 0}
-                type="text"
-                placeholder="Kahawa, wendani"
+                ref={privacyPolicyRef}
+                type="checkbox"
+                style={{ marginRight: "0.1rem", marginBottom: "0rem" }}
               />
-               {errors?.address && <p className="error-message text-red-500 text-sm">{errors.address[0]}</p>}
-              <label
-                style={{
-                  whiteSpace: "nowrap",
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                <input
-                  ref={privacyPolicyRef}
-                  type="checkbox"
-                  style={{ marginRight: "0.1rem", marginBottom: "0rem" }}
-                />
-                <span style={{ marginLeft: "-1rem" }}>
-                  I agree to the privacy policy
-                </span>
-              </label>
-            </div>
-          
+              <span style={{ marginLeft: "-1rem" }}>
+                I agree to the privacy policy
+              </span>
+            </label>
+          </div>
 
           <div className={isVolunteer ? "hidden" : ""}>
             <input ref={passwordRef} type="password" placeholder="Password" />
-            {errors?.password && <p className="error-message text-red-500 text-sm">{errors.password[0]}</p>}
+            {errors?.password && (
+              <p className="error-message text-red-500 text-sm">
+                {errors.password[0]}
+              </p>
+            )}
             <input
               ref={passwordConfirmationRef}
               type="password"
@@ -228,17 +277,9 @@ function SignUp() {
             />
           </div>
 
-          {/* <input
-            className={accountType == "3" ? "" : hide}
-            placeholder="ID Number"
-          />
-          <input
-            className={accountType == "3" ? "" : hide}
-            checked={policy}
-            onChange={handleCheckboxChange}
-            type="checkbox"
-          /> */}
-          <button className="btn btn-block">
+          {/* Loading Spinner */}
+
+          <button className="btn btn-block" disabled={loading}>
             {isVolunteer ? "Register" : "Sign up"}
           </button>
           <p className="message">
@@ -248,6 +289,7 @@ function SignUp() {
       </div>
       <Toaster />
     </div>
+    // </div>
   );
 }
 export default SignUp;

@@ -19,6 +19,9 @@ class AdminDashboardController extends Controller
 
         // Total number of listings
         $totalListings = Listing::query()->count();
+
+        //Total claimed listings
+        $totalClaimedListings = Listing::query()->where('claimed', 1)->count();
         
         // Latest listing
         $latestListing = Listing::query()->latest('created_at')->first();
@@ -27,6 +30,7 @@ class AdminDashboardController extends Controller
             'totalDonors' => $totalDonors,
             'totalVolunteers' => $totalVolunteers,
             'totalListings' => $totalListings,
+            'totalClaimedListings' => $totalClaimedListings,
             'latestListing' => $latestListing ? new ListingResourceAdminDashboard($latestListing) : null,
         ];  
     }

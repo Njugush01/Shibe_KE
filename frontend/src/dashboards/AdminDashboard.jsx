@@ -56,6 +56,16 @@ export default function AdminDashboard() {
                     </DashboardCard>
 
                     <DashboardCard
+                        title="Claimed Listings"
+                        className="order-1 lg:order-2"
+                        style={{animationDelay: '0.4s'}}
+                    >
+                        <div className="text-8xl pb-4 font-semibold flex-1 flex items-center justify-center">
+                            {data.totalClaimedListings}
+                        </div>
+                    </DashboardCard>
+
+                    <DashboardCard
                         title="Latest Listing"
                         className="order-1 lg:order-2"
                         style={{animationDelay: '0.4s'}}

@@ -22,22 +22,28 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' =>'required|string|max:55',
-            'email' =>'required|email|unique:users,email',
-            'account_type' =>'required|integer|max:3',
-            'phone' =>'required|string|max:12',
-            'id_number' => 'required|string|max:8',
-            'address' => 'required|string|max:255',
-            'privacy_policy' => 'required|boolean',
-            'password' => [
+        $rules = [
+            'name' => 'required|string|max:55',
+            'email' => 'required|email|unique:users,email',
+            'account_type' => 'required|integer|max:3',
+            'phone' => 'required|string|max:12',
+        ];
+
+       
+        if ($this->input('account_type') == 2) {
+            $rules['password'] = [
                 'required',
                 'confirmed',
                 Password::min(8)
-                ->letters()
-                ->symbols()
-            ]
+                    ->letters()
+                    ->symbols(),
+            ];
+        } else if ($this->input('account_type') == 3) {
+            $rules['id_number'] ='required|string|max:8';
+            $rules['address'] ='required|string|max:255';
+            $rules['privacy_policy'] ='required|boolean';
+        }
 
-        ];
+         return $rules;
     }
 }

@@ -34,24 +34,38 @@ class AuthController extends Controller
         $data = $request->validated();
          Log::info(json_encode($data));
 
-        $password = $this->generatePassword(8);
+        
         // Log::info(json_encode($data));
 
         // die (json_encode($data));
         /** @var \App\Models\User $user */
-        $user = User::create([ //save a user and return user
+        $userData = [
             'name' => $data['name'],
             'account_type' => $data['account_type'],
             'phone' => $data['phone'],
             'email' => $data['email'],
-            'password' => bcrypt($password),
-            'id_number' => $data['id_number'], 
-            'address' => $data['address'], 
-            'privacy_policy' => $data['privacy_policy'],
-        ]);
+            // 'password' => bcrypt($password),
+        ];
 
-        Mail::to($user->email)->send(new VolunteerRegistration($user->name, $password));
+        if ($data['account_type'] == 3) {
+            $password = $this->generatePassword(8);
+            $userData['password'] = bcrypt($password);
+            $userData['id_number'] = $data['id_number'];
+            $userData['address'] = $data['address'];
+            $userData['privacy_policy'] = $data['privacy_policy'];
 
+            $user = User::create($userData);
+
+            Mail::to($user->email)->send(new VolunteerRegistration($user->name, $password));
+
+        } else {
+            // For non-volunteer users, let them input their own password
+            $userData['password'] = bcrypt($data['password']);
+            $user = User::create($userData);
+        }
+
+        // Create the user
+        //$user = User::create($userData);
 
 
         $token = $user->createToken('main')->plainTextToken;
