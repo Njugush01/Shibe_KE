@@ -25,12 +25,24 @@ class ListingController extends Controller
 
     {
         $user = $request->user();
+        $month = $request->query('month'); 
 
-        return ListingResource::collection(
-            Listing::where('user_id', $user->id)
-            ->orderBy('created_at','desc')
-            ->paginate(7)
-        );
+        // If month is provided, filter listings by that month
+        if ($month) {
+            return ListingResource::collection(
+                Listing::whereMonth('created_at', $month)->where('user_id', $user->id)->orderBy('created_at','desc')->paginate(7)
+            );
+        } else {
+            return ListingResource::collection(
+                Listing::where('user_id', $user->id)->orderBy('created_at','desc')->paginate(6)
+            );
+        }
+        
+        // return ListingResource::collection(
+        //     Listing::where('user_id', $user->id)
+        //     ->orderBy('created_at','desc')
+        //     ->paginate(7)
+        // );
     }
 /**
      * Store a newly created resource in storage.
@@ -67,6 +79,19 @@ class ListingController extends Controller
         $user = $request->user();
         return new ListingResource($listing);
     }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function myClaims(Listing $listing, Request $request)
+    {
+        $user = $request->user();
+        $data = Listing::where('claimed_by', $user->id)->orderBy('created_at','desc')->get();
+        
+        return $data;
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -123,10 +148,12 @@ class ListingController extends Controller
     {
         $user = auth()->user();
 
+
         if ($listing->claimed == 1) {
             return response()->json(['message' => 'Listing already claimed'], 400);
         }
         $listing->claimed = 1;
+        $listing->claimed_by = $user->id;
         $listing->save();
 
         // Send notification email to admin
@@ -135,5 +162,7 @@ class ListingController extends Controller
 
         return new ListingResource($listing);
     }
+
+
 }
 

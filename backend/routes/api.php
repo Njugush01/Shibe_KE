@@ -35,9 +35,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/auth/listing/{listing}', [ListingController::class, 'update']);
     Route::put('/auth/listing/{listing}/status', [ListingController::class, 'updateStatus']);
     Route::put('/auth/listing/{listing}/claim', [ListingController::class, 'claim']);
+    Route::get('/auth/listings/my-claims', [ListingController::class, 'myClaims']);
 
     Route::get('/auth/dashboard', [DashboardController::class, 'index']);
     Route::get('/auth/admin-dashboard', [AdminDashboardController::class, 'index']);
+
     
 
 });

@@ -19,11 +19,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return UserResource::collection(
-            User::query()->orderBy('id', 'desc')
-            ->paginate(6));
+        $month = $request->query('month'); // Get the month query parameter
+
+        // If month is provided, filter users by that month
+        if ($month) {
+            return UserResource::collection(
+                User::whereMonth('created_at', $month)->orderBy('id', 'desc')->paginate(6)
+            );
+        } else {
+            // Otherwise, return all users
+            return UserResource::collection(
+                User::orderBy('id', 'desc')->paginate()
+            );
+        }
     }
 
     /**

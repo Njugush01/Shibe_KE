@@ -21,7 +21,7 @@ class ListingResourceDashboard extends JsonResource
             'quantity' => $this ->quantity,
             'expiry_date' => $this -> expiry_date,
             'location' => $this -> location,
-            'created_at' => $this -> created_at->format('d-m-y H:i:s'),
+            'created_at' => $this -> created_at->format('Y-m-d H:i:s'),
         ];
     }
 }
