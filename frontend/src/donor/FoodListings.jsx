@@ -4,12 +4,17 @@ import axiosClient from "../axios-client"
 import Pagination from "../Pagination";
 import Status from "../Status";
 import { useStateContext } from "../contexts/ContextProvider";
+import searchObjectsByValue from "../Search";
+import SearchStatus from "../core/SearchStatus";
+
 
 export default function FoodListings() {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [meta, setMeta] = useState({});
   const {setNotification} = useStateContext();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchedListings, setSearchedListings] = useState([]);
 
   const onPageClick = (link) => {
     getListings(link.url)
@@ -40,11 +45,42 @@ export default function FoodListings() {
       .then(({data}) =>{
         setLoading(false)
         setListings(data.data)
+        SearchStatus(data.data)
         setMeta(data.meta)
       })
       .catch(() =>{
        setLoading(false)
       })
+  }
+
+  const handleSearch = (e) => {
+    const input = e.target.value;
+    setSearchQuery(input);
+    setSearchedListings(searchObjectsByValue(listings, input));
+    // console.log(input)
+    // console.log(users)
+
+  };
+
+  const search = (listings) => {
+    return listings.map(listing =>(
+      <tr key={listing.id}>
+      <td>{listing.id}</td>
+      <td>{listing.title}</td>
+      <td>{listing.description}</td>
+      <td>{listing.quantity}</td>
+      <td>{listing.expiry_date}</td>
+      <td>{listing.location}</td>
+      <td>{listing.created_at}</td>
+      <td>{(listing.status)}</td>
+      <td>
+                  <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Edit</Link>
+                   &nbsp;
+                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
+                </td>
+            </tr>
+          ))
+
   }
 
 
@@ -56,6 +92,13 @@ export default function FoodListings() {
         <Link to="/auth/listing/new" className="btn-add">Add new</Link>
       </div>
       <div className="card animated fadeInDown">
+      <input
+          type="text"
+          placeholder="Search"
+          value={searchQuery}
+          onChange={handleSearch}
+          className="border border-gray-300 rounded px-3 py-2 mt-4 mb-2 w-full"
+        />
         <table>
           <thead>
             <tr>
@@ -82,23 +125,7 @@ export default function FoodListings() {
 
           {!loading &&
             <tbody>
-              {listings.map(listing =>(
-                <tr key={listing.id}>
-                <td>{listing.id}</td>
-                <td>{listing.title}</td>
-                <td>{listing.description}</td>
-                <td>{listing.quantity}</td>
-                <td>{listing.expiry_date}</td>
-                <td>{listing.location}</td>
-                <td>{listing.created_at}</td>
-                <td>{Status(listing.status)}</td>
-                <td>
-                  <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Edit</Link>
-                   &nbsp;
-                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
-                </td>
-            </tr>
-          ))}
+              {searchQuery.length == 0 ? search(listings) : search(searchedListings)}
           </tbody>
           }
         </table>

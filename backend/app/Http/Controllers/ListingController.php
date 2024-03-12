@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\ListingStoreRequest;
 use App\Http\Requests\ListingUpdateRequest;
 use App\Http\Resources\ListingResource;
@@ -25,26 +26,26 @@ class ListingController extends Controller
 
     {
         $user = $request->user();
-        $month = $request->query('month'); 
+        $month = $request->query('month');
 
         // If month is provided, filter listings by that month
         if ($month) {
             return ListingResource::collection(
-                Listing::whereMonth('created_at', $month)->where('user_id', $user->id)->orderBy('created_at','desc')->paginate(7)
+                Listing::whereMonth('created_at', $month)->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(7)
             );
         } else {
             return ListingResource::collection(
-                Listing::where('user_id', $user->id)->orderBy('created_at','desc')->paginate(6)
+                Listing::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(6)
             );
         }
-        
+
         // return ListingResource::collection(
         //     Listing::where('user_id', $user->id)
         //     ->orderBy('created_at','desc')
         //     ->paginate(7)
         // );
     }
-/**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\ListingStoreRequest $request
@@ -68,7 +69,6 @@ class ListingController extends Controller
 
 
         return new ListingResource($listing);
-
     }
 
     /**
@@ -87,8 +87,8 @@ class ListingController extends Controller
     public function myClaims(Listing $listing, Request $request)
     {
         $user = $request->user();
-        $data = Listing::where('claimed_by', $user->id)->orderBy('created_at','desc')->get();
-        
+        $data = Listing::where('claimed_by', $user->id)->orderBy('created_at', 'desc')->get();
+
         return $data;
     }
 
@@ -102,7 +102,7 @@ class ListingController extends Controller
 
         //Update listing in the database
         $listing->update($data);
-        
+
         return new ListingResource($listing);
     }
 
@@ -112,18 +112,18 @@ class ListingController extends Controller
     public function destroy(Listing $listing)
     {
         $listing->delete();
-        return response('',204);
+        return response('', 204);
     }
 
     public function updateStatus(Request $request, Listing $listing)
     {
-        
+
         $listing->status = $request->status;
         $listing->save();
 
         $user = $listing->user;
-        
-        
+
+
         // $user_id = $listing->user_id;
         // $user = User::where('id', $user_id)->first();
         // $email = $user->email;
@@ -131,11 +131,11 @@ class ListingController extends Controller
         $message = "";
 
         if ($listing->status == 1) {
-            $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} has been accepted.";
+            $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} has been accepted. Our agent will contact you. Thank you for your generosity!";
         } elseif ($listing->status == 2) {
             $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} has been rejected.";
         }
-        
+
 
         Mail::to($user->email)->send(new NotifyStatus($message));
         // $results = DB::select('select * from users where id = :id', ['id' =>$listing->user_id]);
@@ -157,12 +157,30 @@ class ListingController extends Controller
         $listing->save();
 
         // Send notification email to admin
-        $message ="Hello, the listing with the title: {$listing->title} and ID: {$listing->id} has been claimed by {$user->name}";
+        $message = "Hello, the listing with the title: {$listing->title} and ID: {$listing->id} has been claimed by {$user->name} with the phone number: {$user->phone}.";
         Mail::to('njugunamuchaie@gmail.com')->send(new NotifyClaim($user, $listing));
 
         return new ListingResource($listing);
     }
 
+    public function pendingListings(Listing $listing, Request $request)
+    {
+        $data = Listing::where('status', 0)->orderBy('created_at', 'desc')->get();
+        return $data;
+        // return ListingResource::collection(
+        //     Listing::where('status', 0)->orderBy('created_at', 'desc')->paginate(10)
+        // );
+    }
 
+    public function acceptedListings(Listing $listing, Request $request)
+    {
+        $data = Listing::where('status', 1)->orderBy('created_at', 'desc')->get();
+        return $data;
+    }
+
+    public function rejectedListings(Listing $listing, Request $request)
+    {
+        $data = Listing::where('status', 2)->orderBy('created_at', 'desc')->get();
+        return $data;
+    }
 }
-

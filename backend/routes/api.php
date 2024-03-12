@@ -36,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/auth/listing/{listing}/status', [ListingController::class, 'updateStatus']);
     Route::put('/auth/listing/{listing}/claim', [ListingController::class, 'claim']);
     Route::get('/auth/listings/my-claims', [ListingController::class, 'myClaims']);
+    Route::get('/auth/pending', [ListingController::class, 'pendingListings']);
+    Route::get('/auth/accepted', [ListingController::class, 'acceptedListings']);
+    Route::get('/auth/rejected', [ListingController::class,'rejectedListings']);
+
 
     Route::get('/auth/dashboard', [DashboardController::class, 'index']);
     Route::get('/auth/admin-dashboard', [AdminDashboardController::class, 'index']);

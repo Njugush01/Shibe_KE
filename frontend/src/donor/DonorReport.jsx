@@ -6,6 +6,8 @@ import { useStateContext } from "../contexts/ContextProvider";
 import DownloadCard from "../core/DownloadCard";
 import { ArrowDownCircleIcon } from "@heroicons/react/20/solid";
 import TButton from "../core/TButton";
+import { Link } from "react-router-dom";
+import { EyeIcon } from "@heroicons/react/24/outline";
 
 export default function DonorReport() {
   const [loading, setLoading] = useState(false);
@@ -39,23 +41,13 @@ export default function DonorReport() {
             className="order-1 lg:order-2"
             style="animation-delay: 0.1s"
           >
-            <div
-              onClick={() => {
-                const currentDate = new Date();
-                generatePdf(
-                  listings,
-                  "My Listings Report",
-                  user.name,
-                  currentDate
-                );
-              }}
-              className="flex justify-between"
-            >
-              <TButton>
-                <ArrowDownCircleIcon className="w-5 h-5 mr-2" />
-                Download
+              <Link to="/auth/dataView-D">
+              <TButton link>
+                <EyeIcon className="w-5 h-5 mr-2" />
+                View Data
               </TButton>
-            </div>
+            </Link>
+            
           </DownloadCard>
         </div>
       )}

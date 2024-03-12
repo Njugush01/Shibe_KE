@@ -95,7 +95,7 @@ function ListingsForm() {
       {listing.id && (
         <h1 className="font-bold text-2xl">Update Listing: {listing.title}</h1>
       )}
-      {!listing.id && <h1>New Listing</h1>}
+      {!listing.id && <h1 className="font-bold text-2xl">New Listing</h1>}
       <div className="card animated fadeInDown relative">
         {submitting && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 z-50">

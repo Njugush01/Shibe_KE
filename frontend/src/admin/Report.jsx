@@ -6,12 +6,15 @@ import generatePdf from "../core/PdfFileCopy";
 import { useEffect } from "react";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
+import { EyeIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+
 
 function Report() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
   const [users, setUsers] = useState([]);
-  const {user} = useStateContext();
+  const { user } = useStateContext();
 
   useEffect(() => {
     getListings();
@@ -36,13 +39,15 @@ function Report() {
 
   const getUsers = () => {
     setLoading(true);
-    axiosClient.get("/auth/users").then(({ data }) => {
-      setLoading(false);
-      setUsers(data.data);
-    })
-    .catch(() => {
-      setLoading(false);
-    });
+    axiosClient
+      .get("/auth/users")
+      .then(({ data }) => {
+        setLoading(false);
+        setUsers(data.data);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   // State to handle PDF download
@@ -58,36 +63,44 @@ function Report() {
             className="order-1 lg:order-2"
             style="animation-delay: 0.1s"
           >
-            <div
+            {/* <div
               onClick={() => {
                 const currentDate = new Date();
-                generatePdf(listings, "Listings Report",user.name, currentDate);
+                generatePdf(
+                  listings,
+                  "Listings Report",
+                  user.name,
+                  currentDate
+                );
               }}
               className="flex justify-between"
-            >
-              <TButton>
-                <ArrowDownCircleIcon className="w-5 h-5 mr-2" />
-                Download
+            > */}
+              <Link to="/auth/dataView-L">
+              <TButton link>
+                <EyeIcon className="w-5 h-5 mr-2" />
+                View Data
               </TButton>
-            </div>
+            </Link>
+            
           </DownloadCard>
           <DownloadCard
             title="User Data Report"
             className="order-1 lg:order-2"
             style="animation-delay: 0.1s"
           >
-            <div
+            {/* <div
               onClick={() => {
                 const currentDate = new Date();
                 generatePdf(users, "Users Report",user.name, currentDate);
               }}
               className="flex justify-between"
-            >
-              <TButton>
-                <ArrowDownCircleIcon className="w-5 h-5 mr-2" />
-                Download
+            > */}
+            <Link to="/auth/data-view">
+              <TButton link>
+                <EyeIcon className="w-5 h-5 mr-2" />
+                View Data
               </TButton>
-            </div>
+            </Link>
           </DownloadCard>
         </div>
       )}

@@ -46,6 +46,7 @@
             <p>Hi {{ $name }},</p>
             <p>Thank you for signing up to become a Food Linker!</p>
             <p>Use this password: <strong>{{ $password }}</strong> to log in to your account.</p>
+            <p>You can change the password to your liking after log in under 'My Profile' section.</p>
         </div>
         <div class="footer">
             <p>If you have any questions, please contact us at support@foodlinker.com</p>

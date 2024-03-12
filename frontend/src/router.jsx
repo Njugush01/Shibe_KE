@@ -19,7 +19,15 @@ import ListingsForm from "./donor/ListingsForm";
 import DonorProfile from "./donor/DonorProfile";
 import AdminDashboard from "./dashboards/AdminDashboard";
 import DonorReport from "./donor/DonorReport";
-//import DataView from "../src/core/DataView";
+import DataView from "../src/core/DataView";
+import DataViewListing from "./core/DataViewListings";
+import DataViewDonor from "./core/DataViewDonor";
+import DataViewVolunteer from "./core/DataViewVolunteer";
+import MyClaims from "./volunteer/MyClaims";
+import PendingListings from "./admin/Pending";
+import AcceptedListings from "./admin/Accepted";
+import RejectedListingsListings from "./admin/Rejected";
+
 
 //import { Route } from "react-router-dom";
 //import {Navigate} from "react-router-dom";
@@ -81,6 +89,38 @@ const router = createBrowserRouter([
             {
                 path: 'donor-report',
                 element: <DonorReport/>
+            },
+            {
+                path: 'pending',
+                element: <PendingListings/>
+            },
+            {
+                path: 'accepted',
+                element: <AcceptedListings/>
+            },
+            {
+                path: 'rejected',
+                element: <RejectedListingsListings/>
+            },
+            {
+                path: 'data-view',
+                element: <DataView/>
+            },
+            {
+                path: 'dataView-L',
+                element: <DataViewListing/>
+            },
+            {
+                path: 'dataView-D',
+                element: <DataViewDonor/>
+            },
+            {
+                path:'my-claims',
+                element: <MyClaims/>
+            },
+            {
+                path:'dataView-V',
+                element: <DataViewVolunteer/>
             },
         ]
     },

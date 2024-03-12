@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import companyLogo from "../assets/pdflogo.png";
 
-export default function generatePdf(data, filename, userName, currentDate) {
+export default function generatePdf(data, filename, userName, currentDate,selectedMonth) {
   const doc = new jsPDF();
   //console.log(Object.keys(data[0]))
   let newData = [];
@@ -13,7 +13,10 @@ export default function generatePdf(data, filename, userName, currentDate) {
     delete data[i].user_id;
     delete data[i].claimed;
     delete data[i].privacy_policy;
-    
+    delete data[i].status;
+    delete data[i].account_type;
+    delete data[i].address;
+    delete data[i].id_number;
     newData.push(data[i]);
   }
 
@@ -30,12 +33,13 @@ export default function generatePdf(data, filename, userName, currentDate) {
   doc.setFontSize(8);
   doc.text(formattedDate, dateX, dateY);
 
-  // // Add title of the report
-  // const titleX = doc.internal.pageSize.width / 2;
-  // const titleY = 20;
-  // doc.setFontSize(14); 
-  // doc.setFont('helvetica', 'bold');
-  // doc.text(filename, titleX, titleY, { align: 'center' });
+  // Add title of the report
+  const title = `${filename} for the month of ${selectedMonth.toLocaleDateString('en-US', { month: 'long' })}`;
+  const titleX = doc.internal.pageSize.width / 2;
+  const titleY = 20;
+  doc.setFontSize(14); 
+  doc.setFont('helvetica', 'bold');
+  doc.text(title, titleX, titleY, { align: 'center' });
 
   // Add footer with page numbers
   const pageCount = doc.internal.getNumberOfPages();
@@ -59,11 +63,11 @@ export default function generatePdf(data, filename, userName, currentDate) {
   const imgWidth = 70; 
   const imgHeight = 50; 
   const imgX = (doc.internal.pageSize.width - imgWidth) / 2;
-  doc.addImage(companyLogo, 'PNG', imgX, 10, imgWidth, imgHeight);
+  doc.addImage(companyLogo, 'PNG', imgX, 14, imgWidth, imgHeight);
 
 
-  let startY = 40; // Adjust the starting position as needed
-  doc.text(filename, 14, startY);
+  let startY = 50; 
+  //doc.text(filename, 14, startY);
   startY += 10;
   doc.autoTable({
     startY,

@@ -120,7 +120,7 @@ function SignUp() {
         //setToken(data.token);
 
         if (accountType === "2") {
-          toast.success("Account created successfully proceed to login", { duration: 4000 });
+          toast.success("Account created successfully! Proceed to login", { duration: 4000 });
         } else if (accountType === "3") {
           toast.success("Account created successfully", { duration: 4000 });
           toast.success(" Your log in password has been sent to your email", {
@@ -138,6 +138,7 @@ function SignUp() {
         const response = err.response;
         if (response && response.status === 422) {
           setErrors(response.data.errors);
+          setLoading(false);
         }
       });
   };
