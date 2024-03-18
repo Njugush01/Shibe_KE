@@ -12,7 +12,7 @@ class AdminListingController extends Controller
     {
         return ListingResource::collection(
             Listing::orderBy('created_at', 'desc')
-            ->paginate()
+            ->paginate(6)
         );
     }
 }

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
-import Signupimg from "../assets/signup.jpg";
+import Signupimg from "../assets/signup2.jpg";
 import toast, { Toaster } from "react-hot-toast";
 
 function SignUp() {
@@ -199,7 +199,7 @@ function SignUp() {
           <input
             ref={nameRef}
             value={nameRef.current?.value}
-            placeholder={isVolunteer ? "John Doe" : "Organization Name"}
+            placeholder={isVolunteer ? "Your Name (John Doe)" : "Organization Name"}
             onChange={handleNameChange}
           />
           {errors?.name && (

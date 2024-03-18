@@ -6,6 +6,7 @@ import Status from "../Status";
 import { useStateContext } from "../contexts/ContextProvider";
 import searchObjectsByValue from "../Search";
 import SearchStatus from "../core/SearchStatus";
+import Modal from "../donor/SchedulePickup";
 
 
 export default function FoodListings() {
@@ -15,6 +16,8 @@ export default function FoodListings() {
   const {setNotification} = useStateContext();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedListings, setSearchedListings] = useState([]);
+  const [showModal, setShowModal] = useState(false); 
+  const [selectedListing, setSelectedListing] = useState(null);
 
   const onPageClick = (link) => {
     getListings(link.url)
@@ -62,9 +65,15 @@ export default function FoodListings() {
 
   };
 
+  const openModal = (listing) => {
+    setSelectedListing(listing);
+    setShowModal(true);
+  };
+
+
   const search = (listings) => {
     return listings.map(listing =>(
-      <tr key={listing.id}>
+      <tr className="hover:cursor-pointer" key={listing.id} onClick={() => openModal(listing)}>
       <td>{listing.id}</td>
       <td>{listing.title}</td>
       <td>{listing.description}</td>
@@ -131,6 +140,10 @@ export default function FoodListings() {
         </table>
       </div>
       <Pagination meta={meta} onPageClick={onPageClick} />
+      {/* Render modal if showModal is true */}
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)} listing={selectedListing} />
+      )}
     </div>
   )
 }

@@ -94,15 +94,8 @@ export default function DefaultLayout() {
       <Link to="/auth/profile">My Profile</Link>
       <Link to="/auth/v-listed">Listed Food</Link>
       <Link to="/auth/my-claims">My Claims</Link>
-      {/* <Link to="/auth/volunteer-report">Report</Link> */}
+      <Link to="/auth/scheduled-pickups">Scheduled Pickups</Link>
 
-      {/* <Link to="/auth/dashboard">Dashboard</Link> */}
-      {/* <Link to="/auth/admin-dashboard">Dashboard</Link> */}
-      {/* <Link to="/auth/users">Users</Link> */}
-      {/* <Link to="/auth/listed">Listed Food</Link> */}
-      {/* <Link to="/auth/listing">List Food</Link> */}
-      {/* <Link to="/auth/report">Report</Link> */}
-      {/* <Link to="/auth/donor-report">Report</Link> */}
   </aside> 
     }
   return (
@@ -113,7 +106,7 @@ export default function DefaultLayout() {
         <div className='content bg-[#e9e8e6]'>
             <header>
                 <div>
-                 <h2 className='font-bold text-2xl'>{account_type == 1 ? "Admin": account_type == 2 ? "Donor": account_type == 3 ? "Volunteer":"Anonymous"}</h2>
+                 <h2 className='font-bold text-2xl'>{account_type == 1 ? "Admin": account_type == 2 ? "Donor": account_type == 3 ? "Volunteer":""}</h2>
                 </div>
                 <div>
                 <Link to="/">Home</Link> | &nbsp; &nbsp;

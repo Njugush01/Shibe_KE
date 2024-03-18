@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-//import generatePdf from '../core/GeneratePdf';
 import axiosClient from "../axios-client";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useReactToPrint } from "react-to-print";
 import { useStateContext } from "../contexts/ContextProvider";
 import generatePdf from "./PdfFileCopy";
 import TButton from "../core/TButton";
@@ -61,9 +59,9 @@ function DataView() {
     }
   };
   // Function to handle printing
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  // });
 
   const checkSelectedDate = () => {
     if (selectedDate.getMonth() == null) {

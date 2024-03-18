@@ -31,7 +31,7 @@ class UserController extends Controller
         } else {
             // Otherwise, return all users
             return UserResource::collection(
-                User::orderBy('id', 'desc')->paginate()
+                User::orderBy('id', 'desc')->paginate(6)
             );
         }
     }

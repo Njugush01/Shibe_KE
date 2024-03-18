@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
             'name' => 'required|string|max:55',
             'email' => 'required|email|unique:users,email',
             'account_type' => 'required|integer|max:3',
-            'phone' => 'required|string|max:12',
+            'phone' => 'required|string|max:12|unique:users,phone'
         ];
 
        
@@ -39,7 +39,7 @@ class StoreUserRequest extends FormRequest
                     ->symbols(),
             ];
         } else if ($this->input('account_type') == 3) {
-            $rules['id_number'] ='required|string|max:8';
+            $rules['id_number'] = 'required|string|max:8|unique:users,id_number';
             $rules['address'] ='required|string|max:255';
             $rules['privacy_policy'] ='required|boolean';
         }

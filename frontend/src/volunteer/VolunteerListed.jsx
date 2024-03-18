@@ -11,6 +11,8 @@ export default function VolunteerListed() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedListings, setSearchedListings] = useState([]);
   const [meta, setMeta] = useState({});
+  const [checkClaim, setCheckClaim] = useState(0);
+  //const [checkPickUp, setCheckPickUp] = useState(0);
 
   const onPageClick = (link) => {
     getListings(link.url);
@@ -21,13 +23,13 @@ export default function VolunteerListed() {
   }, []);
 
   const getListings = (url) => {
-    url = url || "/auth/listed";
+    url = url || "/auth/v-listed";
     setLoading(true);
     axiosClient
       .get(url)
       .then(({ data }) => {
         setLoading(false);
-        //console.log(data);
+        console.log(data);
         setListings(data.data);
         //SearchClaimed(data.data);
         setMeta(data.meta);
@@ -38,8 +40,10 @@ export default function VolunteerListed() {
   };
 
   const onClaim = (listing) => {
+    setCheckClaim(listing.id);
     if (listing.claimed) {
         toast.error("Listing already claimed");
+        setCheckClaim(0);
         return;
     }
     axiosClient
@@ -48,12 +52,29 @@ export default function VolunteerListed() {
             const updatedListings = listings.filter(item => item.id !== listing.id);
             setListings(updatedListings);
             toast.success("Listing claimed successfully");
+            setCheckClaim(0);
         })
         .catch((error) => {
+          setCheckClaim(0);
             console.error("Error claiming listing:", error);
         });
 };
 
+// const onPickUp =(listing) => {
+//   setCheckPickUp(listing.id);
+//   axiosClient
+//   .put(`/auth/listing/${listing.id}/pickup`)
+//   .then((response) => {
+//       const updatedListings = listings.filter(item => item.id !== listing.id);
+//       setListings(updatedListings);
+//       toast.success("Pick up status successfully updated");
+//       setCheckPickUp(0);
+//   })
+//   .catch((error) => {
+//     setCheckPickUp(0);
+//       console.error("Error picking up listing:", error);
+//   });
+// }
 
   const handleSearch = (e) => {
     const input = e.target.value;
@@ -73,13 +94,23 @@ export default function VolunteerListed() {
         <td >
           <button
       
-            onClick={(ev) => onClaim(listing)}
+            onClick={(ev) => {onClaim(listing)}}
             className={listing.claimed == 1 ? "bg-gray-200" : "bg-[#ffff89] "}
             disabled={listing.claimed}
             
           >
-            {listing.claimed == 1 ? "Claimed" : "Claim"}
+            {checkClaim == listing.id ? '...' : (listing.claimed == 1 ? "Claimed" : "Claim") }
           </button>
+          {/* &nbsp;
+          <button
+            onClick={(ev) => {onPickUp(listing)}}
+            className={listing.pickup_status == 1 ? "bg-gray-200" : "bg-[#f7465b] "}
+            disabled={listing.pickup_status}
+            
+          >
+            {checkPickUp == listing.id ? '...' : (listing.pickup_status == 1 ? "Picked" : "Pending") }
+          </button> */}
+
         </td>
       </tr>
     ));

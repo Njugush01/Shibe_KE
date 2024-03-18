@@ -51,35 +51,7 @@ export default function ListedFoods() {
         console.log(error);
       });
   };
-
-  // const sendEmail = (email,status,data) => {
-  //   let subject = "";
-  //   let message = "";
-  //   if (status === 1){
-  //     subject = "Donation accepted"
-  //     message = `Hello, Your donation ${data.title} with the ID ${data.id} has been accepted`
-  //   } else{
-  //     subject = "Donation declined"
-  //     message = `Hello, Your donation  ${data.title} with the ID ${data.id} has been declined`
-  //   }
   
-      
-
-  //   let payload = {
-  //     subject: subject,
-  //     message: message,
-  //     recipient:"elvisnjuguna97@gmail.com",
-  //     op:"send"
-  // }
-  //   axiosClient.post('http://127.0.0.1:5006', payload)
-  //  .then((res) => {
-  //       console.log(res.data)
-  //     })
-  //  .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }
-
   const handleSearch = (e) => {
     const input = e.target.value;
     setSearchQuery(input);

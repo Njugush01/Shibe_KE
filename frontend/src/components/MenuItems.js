@@ -17,16 +17,21 @@ export const MenuItems = [
     cName : "nav-links",
     icon : "fa-solid fa-briefcase"
    },
-   {
-    title : "Contact",
-    url : "/contact",
-    cName : "nav-links",
-    icon : "fa-solid fa-address-book"
-   },
+   // {
+   //  title : "Contact",
+   //  url : "/contact",
+   //  cName : "nav-links",
+   //  icon : "fa-solid fa-address-book"
+   // },
 
    {
     title : "Sign In",
     url : "/signin",
     cName : "nav-links-mobile"
    },
+   {
+      title : "Sign Up",
+      url : "/signup",
+      cName : "nav-links-mobile"
+     },
 ]

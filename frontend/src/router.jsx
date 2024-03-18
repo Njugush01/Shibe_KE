@@ -22,11 +22,13 @@ import DonorReport from "./donor/DonorReport";
 import DataView from "../src/core/DataView";
 import DataViewListing from "./core/DataViewListings";
 import DataViewDonor from "./core/DataViewDonor";
-import DataViewVolunteer from "./core/DataViewVolunteer";
+//import DataViewVolunteer from "./core/DataViewVolunteer";
 import MyClaims from "./volunteer/MyClaims";
+import SchedulePickup from "./donor/SchedulePickup";
 import PendingListings from "./admin/Pending";
 import AcceptedListings from "./admin/Accepted";
 import RejectedListingsListings from "./admin/Rejected";
+import ScheduledPickups from "./volunteer/ScheduledPickups";
 
 
 //import { Route } from "react-router-dom";
@@ -119,8 +121,12 @@ const router = createBrowserRouter([
                 element: <MyClaims/>
             },
             {
-                path:'dataView-V',
-                element: <DataViewVolunteer/>
+                path:'pickup-schedules',
+                element: <SchedulePickup/>
+            },
+            {
+                path:'scheduled-pickups',
+                element: <ScheduledPickups/>
             },
         ]
     },

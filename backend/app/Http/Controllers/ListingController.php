@@ -31,11 +31,11 @@ class ListingController extends Controller
         // If month is provided, filter listings by that month
         if ($month) {
             return ListingResource::collection(
-                Listing::whereMonth('created_at', $month)->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(7)
+                Listing::whereMonth('created_at', $month)->where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate()
             );
         } else {
             return ListingResource::collection(
-                Listing::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(6)
+                Listing::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate()
             );
         }
 
@@ -161,6 +161,12 @@ class ListingController extends Controller
         Mail::to('njugunamuchaie@gmail.com')->send(new NotifyClaim($user, $listing));
 
         return new ListingResource($listing);
+    }
+
+    public function pickUp(Listing $listing)
+    {
+        $listing->pickup_status = 1;
+        $listing->save();
     }
 
     public function pendingListings(Listing $listing, Request $request)

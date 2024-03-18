@@ -17,6 +17,7 @@ export default function generatePdf(data, filename, userName, currentDate,select
     delete data[i].account_type;
     delete data[i].address;
     delete data[i].id_number;
+    delete data[i].pickup_status;
     newData.push(data[i]);
   }
 

@@ -53,7 +53,7 @@ export default function Dashboard() {
                   {data.latestListing.title}
                 </h3>
                 <div className="flex justify-between text-sm mb-1">
-                  <div>Desciption:</div>
+                  <div>Description:</div>
                   <div>{data.latestListing.description}</div>
                 </div>
                 <div className="flex justify-between text-sm mb-1">

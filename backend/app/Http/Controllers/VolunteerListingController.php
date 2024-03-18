@@ -8,10 +8,11 @@ use App\Models\Listing;
 
 class VolunteerListingController extends Controller
 {
-    Public function index(Request $request)
+    public function index(Request $request)
     {
         return ListingResource::collection(
-            Listing::orderBy('created_at', 'desc')
+            Listing::where('status', 1) // Filter only listings where status is 1 (accepted)
+            ->orderBy('created_at', 'desc')
             ->paginate(6)
         );
     }

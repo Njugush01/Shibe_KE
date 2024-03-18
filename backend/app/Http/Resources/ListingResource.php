@@ -27,7 +27,8 @@ class ListingResource extends JsonResource
             'location' => $this -> location,
             'status' => $this->status,
             'claimed' => $this -> claimed,
-            'created_at' => $this -> created_at->format('Y-m-d H:i:s'),
+            'pickup_status' => $this -> pickup_status,
+            'created_at' => $this -> created_at->format('Y-m-d'),
         ];
     }
 }
