@@ -40,10 +40,12 @@ export default function AcceptedListings() {
     doc.addImage(logoImg, "PNG", 15, 10, 30, 30); // Adjust coordinates and size as needed
 
     // Add title
-    const selectedMonthName = selectedDate
-      ? selectedDate.toLocaleString("default", { month: "long" })
-      : "All";
-    const titleText = `Total accepted listings for the month of ${selectedMonthName}`;
+    let titleText = selectedDate
+      ? `Total accepted listings for the month of ${selectedDate.toLocaleString(
+          "default",
+          { month: "long" }
+        )}`
+      : "Total accepted listings";
     doc.setFontSize(20);
     doc.text(titleText, doc.internal.pageSize.width / 2, 45, {
       align: "center",
@@ -64,6 +66,16 @@ export default function AcceptedListings() {
 
     doc.setFontSize(8);
     doc.text(footerText, footerX, footerY);
+
+    const additionalSentence =
+      "Nourishing Communities, One Donation at a Time.";
+    const textWidth =
+      (doc.getStringUnitWidth(additionalSentence) *
+        doc.internal.getFontSize()) /
+      doc.internal.scaleFactor;
+    const centerX = (doc.internal.pageSize.getWidth() - textWidth) / 2;
+    const textY = doc.internal.pageSize.getHeight() - footerHeight - 20; // Margin from bottom
+    doc.text(additionalSentence, centerX, textY);
 
     // Generate table data
     const tableData = acceptedListings.map((listing) => [

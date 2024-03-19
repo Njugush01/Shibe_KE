@@ -35,10 +35,13 @@ export default function generatePdf(data, filename, userName, currentDate,select
   doc.text(formattedDate, dateX, dateY);
 
   // Add title of the report
-  const title = `${filename} for the month of ${selectedMonth.toLocaleDateString('en-US', { month: 'long' })}`;
+  let title = filename;
+  if (selectedMonth) {
+    title += ` for the month of ${selectedMonth.toLocaleDateString('en-US', { month: 'long' })}`;
+  }
   const titleX = doc.internal.pageSize.width / 2;
   const titleY = 20;
-  doc.setFontSize(14); 
+  doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
   doc.text(title, titleX, titleY, { align: 'center' });
 

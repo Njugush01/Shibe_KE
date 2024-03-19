@@ -284,7 +284,7 @@ function SignUp() {
             {isVolunteer ? "Register" : "Sign up"}
           </button>
           <p className="message">
-            Already Registered? <Link to="/guest/signin">Sign in</Link>
+            Already Registered? <Link to="/guest/signin">Login</Link>
           </p>
         </form>
       </div>

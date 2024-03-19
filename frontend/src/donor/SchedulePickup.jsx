@@ -45,9 +45,17 @@ const Modal = ({ onClose, listing}) => {
     setLoading(true);
     setError("");
 
+    const today = new Date();
+    const selectedDate = new Date(pickupDate);
+    if (selectedDate < today.setHours(0, 0, 0, 0)) {
+      toast.error("Pickup date cannot be a past date");
+      setLoading(false);
+      return;
+    }
+
     const isScheduled = checkScheduled(listing.id);
     if(isScheduled){
-      toast.error("This listing is already scheduled");
+      toast.error("This listing is already scheduled for pickup");
       setLoading(false);
       return;
     }

@@ -40,14 +40,16 @@ export default function PendingListings() {
     doc.addImage(logoImg, "PNG", 15, 10, 30, 30); // Adjust coordinates and size as needed
 
     // Add title
-    const selectedMonthName = selectedDate
-      ? selectedDate.toLocaleString("default", { month: "long" })
-      : "All";
-    const titleText = `Total pending listings for the month of ${selectedMonthName}`;
-    doc.setFontSize(20);
-    doc.text(titleText, doc.internal.pageSize.width / 2, 45, {
-      align: "center",
-    });
+    let titleText = selectedDate
+    ? `Total pending listings for the month of ${selectedDate.toLocaleString(
+        "default",
+        { month: "long" }
+      )}`
+    : "Total pending listings";
+  doc.setFontSize(20);
+  doc.text(titleText, doc.internal.pageSize.width / 2, 45, {
+    align: "center",
+  });
 
     // Add current date
     const currentDate = new Date().toLocaleDateString();
@@ -64,6 +66,16 @@ export default function PendingListings() {
 
     doc.setFontSize(8);
     doc.text(footerText, footerX, footerY);
+
+    const additionalSentence =
+      "Nourishing Communities, One Donation at a Time.";
+    const textWidth =
+      (doc.getStringUnitWidth(additionalSentence) *
+        doc.internal.getFontSize()) /
+      doc.internal.scaleFactor;
+    const centerX = (doc.internal.pageSize.getWidth() - textWidth) / 2;
+    const textY = doc.internal.pageSize.getHeight() - footerHeight - 20; // Margin from bottom
+    doc.text(additionalSentence, centerX, textY);
 
     // Generate table data
     const tableData = pendingListings.map((listing) => [

@@ -9,22 +9,22 @@ import companyLogo from "../assets/pdflogo.png";
 import { useStateContext } from "../contexts/ContextProvider";
 
 export default function RejectedListingsListings() {
-  const [rejectedListingsListings, setRejectedListingsListings] = useState([]);
+  const [rejectedListings, setRejectedListings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const { user } = useStateContext();
 
   useEffect(() => {
-    getRejectedListingsListings();
+    getRejectedListings();
   }, [selectedDate]);
 
-  const getRejectedListingsListings = () => {
+  const getRejectedListings = () => {
     setLoading(true);
     axiosClient
       .get("/auth/rejected")
       .then(({ data }) => {
         setLoading(false);
-        setRejectedListingsListings(data);
+        setRejectedListings(data);
       })
       .catch(() => {
         setLoading(false);
@@ -40,10 +40,12 @@ export default function RejectedListingsListings() {
     doc.addImage(logoImg, "PNG", 15, 10, 30, 30); // Adjust coordinates and size as needed
 
     // Add title
-    const selectedMonthName = selectedDate
-      ? selectedDate.toLocaleString("default", { month: "long" })
-      : "All";
-    const titleText = `Total Rejected listings for the month of ${selectedMonthName}`;
+    let titleText = selectedDate
+      ? `Total rejected listings for the month of ${selectedDate.toLocaleString(
+          "default",
+          { month: "long" }
+        )}`
+      : "Total rejected listings";
     doc.setFontSize(20);
     doc.text(titleText, doc.internal.pageSize.width / 2, 45, {
       align: "center",
@@ -65,8 +67,18 @@ export default function RejectedListingsListings() {
     doc.setFontSize(8);
     doc.text(footerText, footerX, footerY);
 
+    const additionalSentence =
+      "Nourishing Communities, One Donation at a Time.";
+    const textWidth =
+      (doc.getStringUnitWidth(additionalSentence) *
+        doc.internal.getFontSize()) /
+      doc.internal.scaleFactor;
+    const centerX = (doc.internal.pageSize.getWidth() - textWidth) / 2;
+    const textY = doc.internal.pageSize.getHeight() - footerHeight - 20; // Margin from bottom
+    doc.text(additionalSentence, centerX, textY);
+
     // Generate table data
-    const tableData = RejectedListingsListings.map((listing) => [
+    const tableData = rejectedListings.map((listing) => [
       listing.id,
       listing.title,
       listing.description,
@@ -114,7 +126,7 @@ export default function RejectedListingsListings() {
       </div>
 
       {loading && <p>Loading...</p>}
-      {!loading && rejectedListingsListings && rejectedListingsListings.length > 0 && (
+      {!loading && rejectedListings && rejectedListings.length > 0 && (
         <div>
           <table>
             <thead>
@@ -129,7 +141,7 @@ export default function RejectedListingsListings() {
               </tr>
             </thead>
             <tbody>
-              {rejectedListingsListings
+              {rejectedListings
                 .filter(
                   (listing) =>
                     !selectedDate ||
@@ -154,7 +166,7 @@ export default function RejectedListingsListings() {
         </div>
       )}
       {selectedDate &&
-        rejectedListingsListings.every(
+        rejectedListings.every(
           (listing) =>
             new Date(listing.created_at).getFullYear() !==
               selectedDate.getFullYear() ||
