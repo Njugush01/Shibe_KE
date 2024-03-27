@@ -138,7 +138,7 @@ export default function MyClaims() {
         // Update listings state to reflect the change
         const updatedListings = listings.map((item) => {
           if (item.id === listing.id) {
-            return { ...item, pickup_status: 1 }; // Assuming pickup_status 1 means 'Picked'
+            return { ...item, pickup_status: 1 }; 
           }
           return item;
         });

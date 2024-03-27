@@ -133,6 +133,7 @@ function ListingsForm() {
                 <option value="vegetables">Vegetables</option>
                 <option value="dairy products">Dairy Products</option>
                 <option value="meats">Meats</option>
+                <option value="fruits">Fruits</option>
               </select>
             </div>
             <textarea

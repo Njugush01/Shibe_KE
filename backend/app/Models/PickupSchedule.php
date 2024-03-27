@@ -19,4 +19,8 @@ class PickupSchedule extends Model
     {
         return $this->belongsTo(Listing::class, 'listing_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

@@ -84,8 +84,8 @@ export default function FoodListings() {
       <td>{(listing.status)}</td>
       <td>
                   <Link className="btn-edit" to={'/auth/listing/'+listing.id}>Edit</Link>
-                   &nbsp;
-                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button>
+                   {/* &nbsp;
+                   <button onClick={ev => onDelete(listing)} className="btn-delete">Delete</button> */}
                 </td>
             </tr>
           ))

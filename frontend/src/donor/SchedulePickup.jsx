@@ -66,6 +66,8 @@ const Modal = ({ onClose, listing}) => {
         user_id: user.id,
         pickup_date: pickupDate ,
         message,
+        title: listing.title,
+        name: user.name,
       })
       .then(() => {
         setLoading(false);
@@ -106,6 +108,7 @@ const Modal = ({ onClose, listing}) => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               rows="4"
+              placeholder="Details pertaining to the pickup (including contact person)"
               required
             ></textarea>
           </div>

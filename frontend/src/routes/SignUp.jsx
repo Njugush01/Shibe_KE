@@ -109,7 +109,7 @@ function SignUp() {
       };
     }
     //console.log("Checkbox status:", privacyPolicyRef.current.checked);
-    console.log(payload);
+    //console.log(payload);
 
     axiosClient
       .post("/guest/signup", payload)

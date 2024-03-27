@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\PickupSchedule;
 use App\Http\Requests\PickupScheduleStoreRequest;
 use App\Http\Requests\PickupScheduleUpdateRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PickupScheduledNotification;
 
 
 class PickupScheduleController extends Controller
@@ -23,6 +25,9 @@ class PickupScheduleController extends Controller
     {
         $validatedData = $request->validated();
         $pickupSchedule = PickupSchedule::create($validatedData);
+
+        // Send email notification to admin
+    Mail::to('njugunamuchaie@gmail.com')->send(new PickupScheduledNotification($pickupSchedule));
 
         return response (new PickupScheduleResource($pickupSchedule), 201);
     }

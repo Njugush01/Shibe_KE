@@ -131,7 +131,7 @@ class ListingController extends Controller
         $message = "";
 
         if ($listing->status == 1) {
-            $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} has been accepted. Our agent will contact you. Thank you for your generosity!";
+            $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} has been accepted. You can proceed to schedule pickup and our agent will contact you. Thank you for your generosity!";
         } elseif ($listing->status == 2) {
             $message = "Hello $user->name, your donation '{$listing->title}' with ID {$listing->id} has been rejected.";
         }
